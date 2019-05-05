@@ -48,12 +48,10 @@ if ($_SESSION['logado'] != 1) {
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 				  <ul class="nav navbar-nav">
-					<li><a href="listaprodutor.php" class="colorwhite">Produtor</a></li>
-					<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
-					<li><a href="" class="colorwhite">Cadastro distribuidores</a></li>
-					<li><a href="" class="colorwhite">Cadastro clientes</a></li>
-					<li><a href="" class="colorwhite">Classificação de lotes</a></li>
-					<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
+						<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
+						<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
+						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
+						<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
