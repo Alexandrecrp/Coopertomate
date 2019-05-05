@@ -50,7 +50,7 @@ if ($_SESSION['logado'] != 1) {
 					<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 					<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
 					<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
-					<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
+					<li><a href="../lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>

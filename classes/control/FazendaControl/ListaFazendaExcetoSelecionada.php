@@ -1,7 +1,7 @@
 <?php
-require_once("InterfaceListaFazenda.php");
+require_once("InterfaceListaFazendaExcetoSelecionada.php");
 
-class ListaFazenda implements InterfaceListaFazenda{
+class ListaFazendaExcetoSelecionada implements InterfaceListaFazendaExcetoSelecionada{
 
 		private $conn;
 
@@ -10,9 +10,13 @@ class ListaFazenda implements InterfaceListaFazenda{
 				$this->conn = $registry->get('Connection');
 		}
 
-		public function getAll() {
-				$listafazenda = $this->conn->query('SELECT * FROM fazenda');
+		public function getAllExceto($idexceto) {
+			try {
+				$listafazenda = $this->conn->query("SELECT * FROM fazenda WHERE id !=".$idexceto);
 				return $this->listaFazenda($listafazenda);
+			} catch (PDOException $ex) {
+					echo "ERRO 03: {$ex->getMessage()}";
+			}
 		}
 
 		public function listaFazenda($listafazenda) {

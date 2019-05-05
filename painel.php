@@ -46,7 +46,7 @@ if ($_SESSION['logado'] != 1) {
 							<li><a href="view/produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 							<li><a href="view/fazenda/listafazenda.php" class="colorwhite">Fazenda</a></li>
 							<li><a href="view/cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
-							<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
+							<li><a href="view/lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
 					  </ul>
 					  <ul class="nav navbar-nav navbar-right">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>

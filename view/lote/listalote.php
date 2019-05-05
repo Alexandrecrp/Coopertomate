@@ -1,8 +1,10 @@
 <?php
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
-require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
+require_once("../../classes/model/Fazenda.php");
+require_once("../../classes/control/FazendaControl/ListaEditaFazenda.php");
+require_once("../../classes/model/Lote.php");
+require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -45,10 +47,10 @@ if ($_SESSION['logado'] != 1) {
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 				  <ul class="nav navbar-nav">
-						<li><a href="listaprodutor.php" class="colorwhite">Produtor</a></li>
-						<li><a href="../fazenda/listafazenda.php" class="colorwhite">Fazendas</a></li>
-						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
-						<li><a href="../lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
+					<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
+					<li><a href="../fazenda/listafazenda.php" class="colorwhite">Fazendas</a></li>
+					<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
+					<li><a href="listalote.php" class="colorwhite">Cadastro Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
@@ -59,47 +61,45 @@ if ($_SESSION['logado'] != 1) {
 			</nav>
       <div class="container">
 				<div class="nav navbar-nav navbar-right">
-					<a href="cadastroprodutor.php" class="btn btn-danger"/>Cadastrar Novo Produtor</a> <a href="../../painel.php" class="btn btn-default">Voltar</a></td>
+					<a href="cadastrolote.php" class="btn btn-danger"/>Cadastrar Novo Lote</a> <a href="../../painel.php" class="btn btn-default">Voltar</a></td>
 				</div>
-				<h3 class="page-header">Lista Produtor</h3>
+				<h3 class="page-header">Lista de Lotes</h3>
 				<table class="table table-striped">
 					<thead>
 						<tr>
 						  <th scope="col">Código</th>
-						  <th scope="col">Produtor</th>
+							<th scope="col">Lote</th>
 						  <th scope="col">Fazenda</th>
-						  <th scope="col">Cidade</th>
-							<th scope="col">Email</th>
 							<th scope="col"><center>Ação</center></th>
 						</tr>
 					  </thead>
 					<tbody>
 						<?php
-							$listaprodutor = new ListaProdutor;
-							$resultado = $listaprodutor->getAll();
-							foreach($resultado as $produtor) {
+							$listalote = new ListaLote;
+							$resultado = $listalote->getAll();
+							foreach($resultado as $lote) {
 						?>
 						<tr>
 							<th width="50" scope="row">
 								<center>
-									<?php echo $produtor->getId();?>
+									<?php echo $lote->getId();?>
 								</center>
 							</th>
 							<td width="200">
-								<?php echo $produtor->getNome();?>
+								<?php echo $lote->getLote();?>
 							</td>
 							<td width="200">
-								<?php echo $produtor->getCpf();?>
-							</td>
-							<td width="200">
-								<?php echo $produtor->getCidade();?>
-							</td>
-							<td width="200">
-								<?php echo $produtor->getEmail();?>
+								<?php
+									$listafazenda = new ListaEditarFazenda;
+									$resultado = $listafazenda->getAll($lote->getCod_fazenda());
+									foreach($resultado as $fazendaselecionada) {
+										echo	$fazendaselecionada->getFazenda();
+									}
+								?>
 							</td>
 							<td width="400">
 								<center>
-									<a href="editarprodutor.php?idprodutor=<?php echo $produtor->getId();?>" class="btn btn-danger btn-md" role="button">Editar</a>
+									<a href="editalote.php?idlote=<?php echo $lote->getId();?>" class="btn btn-danger btn-md" role="button">Editar</a>
 								</center>
 							</td>
 						</tr>

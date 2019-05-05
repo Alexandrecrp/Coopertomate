@@ -1,8 +1,11 @@
 <?php
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
-require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
+require_once("../../classes/model/Fazenda.php");
+require_once("../../classes/control/FazendaControl/ListaFazenda.php");
+require_once("../../classes/model/Lote.php");
+require_once("../../classes/control/LoteControl/ConsultaLote.php");
+require_once("../../classes/control/LoteControl/CadastroLote.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -45,10 +48,10 @@ if ($_SESSION['logado'] != 1) {
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 				  <ul class="nav navbar-nav">
-						<li><a href="listaprodutor.php" class="colorwhite">Produtor</a></li>
+						<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 						<li><a href="../fazenda/listafazenda.php" class="colorwhite">Fazendas</a></li>
 						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
-						<li><a href="../lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
+						<li><a href="listalote.php" class="colorwhite">Cadastro Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
@@ -57,58 +60,52 @@ if ($_SESSION['logado'] != 1) {
 				</div>
 			  </div>
 			</nav>
-      <div class="container">
-				<div class="nav navbar-nav navbar-right">
-					<a href="cadastroprodutor.php" class="btn btn-danger"/>Cadastrar Novo Produtor</a> <a href="../../painel.php" class="btn btn-default">Voltar</a></td>
-				</div>
-				<h3 class="page-header">Lista Produtor</h3>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-						  <th scope="col">Código</th>
-						  <th scope="col">Produtor</th>
-						  <th scope="col">Fazenda</th>
-						  <th scope="col">Cidade</th>
-							<th scope="col">Email</th>
-							<th scope="col"><center>Ação</center></th>
-						</tr>
-					  </thead>
-					<tbody>
-						<?php
-							$listaprodutor = new ListaProdutor;
-							$resultado = $listaprodutor->getAll();
-							foreach($resultado as $produtor) {
-						?>
-						<tr>
-							<th width="50" scope="row">
-								<center>
-									<?php echo $produtor->getId();?>
-								</center>
-							</th>
-							<td width="200">
-								<?php echo $produtor->getNome();?>
-							</td>
-							<td width="200">
-								<?php echo $produtor->getCpf();?>
-							</td>
-							<td width="200">
-								<?php echo $produtor->getCidade();?>
-							</td>
-							<td width="200">
-								<?php echo $produtor->getEmail();?>
-							</td>
-							<td width="400">
-								<center>
-									<a href="editarprodutor.php?idprodutor=<?php echo $produtor->getId();?>" class="btn btn-danger btn-md" role="button">Editar</a>
-								</center>
-							</td>
-						</tr>
-						<?php
-						}
-						?>
-					</tbody>
-				</table>
-			</div>
+			<div class="container">
+				<h3 class="page-header">Cadastro de Lote</h3>
+				<form method="post" class="form-signin-fluid" name="frmLogin">
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-3">
+							<label for="inputZip">Lote</label>
+							<input type="text" name="lote" class="form-control" placeholder="Lote" required>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-12">
+							<label for="inputState">Fazenda</label>
+							<select name="cod_fazenda" class="form-control" value="" required>
+								<option selected>Selecione uma fazenda...</option>
+								<?php
+									$listafazenda = new ListaFazenda;
+									$resultado = $listafazenda->getAll();
+									foreach($resultado as $fazenda) {
+								?>
+										<option value="<?=($fazenda->getId());?>"><?=($fazenda->getFazenda());?></option>
+								<?php
+							}
+							?>
+							</select>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-3">
+							<label for="inputZip">Quantidade Inicial</label>
+							<input type="text" name="qtdinicial" class="form-control" placeholder="234.2" pattern="([-0-9]+\.)[\d.]*" required>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-3">
+							<label for="inputZip">Quantidade Vendida</label>
+							<input type="text" name="qtdvendida" class="form-control" placeholder="48.1" pattern="([-0-9]+\.)[\d.]*" required>
+						</div>
+					</div>	
+					<div class="form-row col-md-12">
+						<div class="nav navbar-nav navbar-right">
+							<input type="submit" name="btnSubmit" value="Cadastrar" class="btn btn-danger"/> <td><a href="listalote.php"  class="btn btn-default">Voltar</a></td>
+						</div>
+						<h3 class="page-header"></h3>
+					</div>
+				</form>
+		</div>
 		<footer class="footer">
 				<p><center>&copy; CooperTomate.</center></p>
 		</footer>
@@ -124,6 +121,27 @@ if ($_SESSION['logado'] != 1) {
     </body>
 </html>
 <?php
+if (isset($_POST['btnSubmit'])) {
+	//classe responsável por setar valores da entidade lote
+	$lote = new Lote();
+	$lote->setLote($_POST['lote']);
+	$lote->setCod_fazenda($_POST['cod_fazenda']);
+	$lote->setQtdinicial($_POST['qtdinicial']);
+	$lote->setQtdvendida($_POST['qtdvendida']);
+	//classe responsável por consultar se lote existe ou não
+		$consultalote = new ConsultaLote();
+			if (!$consultalote->consultarLote($_POST['lote'])){
+					//classe responsável por cadastrar lote novo
+					$consultalote = new CadastroLote($lote);
+					$consultalote->cadastrarLote();
+		} else {
+?>
+<script>
+	alert("Lote já cadastrado.");
+</script>
+<?php
+	}
+}
 		if (isset($_GET["acao"])) {
 
 	    if ($_GET["acao"] == "sair") {

@@ -5,8 +5,8 @@ require_once("../../classes/model/Produtor.php");
 require_once("../../classes/control/ProdutorControl/ListaEditaProdutor.php");
 require_once("../../classes/control/ProdutorControl/ListaProdutorExcetoSelecionado.php");
 require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ListaEditaFazenda.php");
-require_once("../../classes/control/FazendaControl/AtualizaFazenda.php");
+require_once("../../classes/control/FazendaControl/ListaEditafazenda.php");
+require_once("../../classes/control/FazendaControl/Atualizafazenda.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -52,7 +52,7 @@ if ($_SESSION['logado'] != 1) {
 						<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 						<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
 						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
-						<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
+						<li><a href="../lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
