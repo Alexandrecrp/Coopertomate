@@ -3,6 +3,7 @@
 class Produtor {
 
     private $id;
+		private $idusuariocadastro;
 		private $nome;
 		private $cpf;
 		private $endereco;
@@ -21,6 +22,15 @@ class Produtor {
 
   public function setId($id) {
     $this->id = $id;
+		return $this;
+  }
+
+	public function getIdusuariocadastro() {
+    return $this->idusuariocadastro;
+  }
+
+  public function setIdusuariocadastro($idusuariocadastro) {
+    $this->idusuariocadastro = $idusuariocadastro;
 		return $this;
   }
 

@@ -2,6 +2,7 @@
 session_start();
 require_once("classes/control/ConexaoControl/Conexao.php");
 require_once("classes/control/UsuarioControl/LoginUsuario.php");
+require_once("classes/control/UsuarioControl/RetornaIdUsuario.php");
 require_once("classes/control/ConexaoControl/RegistroConexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -9,6 +10,8 @@ $loginusuario = new LoginUsuario();
 if (isset($_POST['btnSubmit'])) {
     if ($loginusuario->LoginUsuario($_POST['txtEmail'], $_POST['txtPassword'])) {
     $_SESSION['logado'] = '1';
+		$retornaidusuario = new RetornaIdUsuario();
+		$_SESSION['id']=$retornaidusuario->RetornaIdfornecedor($_POST['txtEmail']);
 		header ("Location: painel.php");
     } else {
         ?>
@@ -62,7 +65,6 @@ if (isset($_POST['btnSubmit'])) {
 						</div>
 						</br>
 						<center>
-							<h6><a href="cadastro.php" class="colorred">Cadastrar&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 							<a href="recuperarSenha.php" class="colorred">Recuperar Senha</a></a>
 						</center>
 				</div>

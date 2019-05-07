@@ -3,6 +3,7 @@
 class Fazenda {
 
     private $id;
+		private $idusuariocadastro;
 		private $produtor;
 		private $fazenda;
 		private $ie;
@@ -24,6 +25,15 @@ class Fazenda {
 
   public function setId($id) {
     $this->id = $id;
+		return $this;
+  }
+
+	public function getIdusuariocadastro() {
+    return $this->idusuariocadastro;
+  }
+
+  public function setIdusuariocadastro($idusuariocadastro) {
+    $this->idusuariocadastro = $idusuariocadastro;
 		return $this;
   }
 

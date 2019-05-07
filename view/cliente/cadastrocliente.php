@@ -184,6 +184,7 @@ if ($_SESSION['logado'] != 1) {
 if (isset($_POST['btnSubmit'])) {
 	//classe responsável por setar valores da entidade cliente
 	$cliente = new Cliente();
+	$cliente->setIdusuariocadastro($_SESSION['id']);
 	$cliente->setCliente($_POST['cliente']);
 	$cliente->setCnpj($_POST['cnpj']);
 	$cliente->setIe($_POST['ie']);

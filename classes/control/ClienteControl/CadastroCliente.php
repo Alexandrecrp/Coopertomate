@@ -16,9 +16,10 @@ class CadastroCliente {
 				try {
 				  $cliente = $this->cliente;
 					$stmt = $this->conn->prepare(
-						'INSERT INTO cliente (cliente, cnpj, ie, endereco, numero, bairro, complemento, cidade, estado,	cep, email, telefone,	latitude,	longitude)
+						'INSERT INTO cliente (idusuariocadastro, cliente, cnpj, ie, endereco, numero, bairro, complemento, cidade, estado,	cep, email, telefone,	latitude,	longitude)
 																	VALUES
-																	(:cliente, :cnpj, :ie, :endereco, :numero, :bairro, :complemento, :cidade,	:estado,	:cep,	:email, :telefone, :latitude,	:longitude)');
+																	(:idusuariocadastro, :cliente, :cnpj, :ie, :endereco, :numero, :bairro, :complemento, :cidade,	:estado,	:cep,	:email, :telefone, :latitude,	:longitude)');
+											$stmt->bindValue(':idusuariocadastro', $cliente->getIdusuariocadastro());
 											$stmt->bindValue(':cliente', $cliente->getCliente());
 											$stmt->bindValue(':cnpj', $cliente->getCnpj());
 											$stmt->bindValue(':ie', $cliente->getIe());

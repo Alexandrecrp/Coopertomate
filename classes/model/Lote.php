@@ -3,6 +3,7 @@
 class Lote {
 
     private $id;
+		private $idusuariocadastro;
 		private $lote;
 		private $cod_fazenda;
 		private $qtdinicial;
@@ -14,6 +15,15 @@ class Lote {
 
   public function setId($id) {
     $this->id = $id;
+		return $this;
+  }
+
+	public function getIdusuariocadastro() {
+    return $this->idusuariocadastro;
+  }
+
+  public function setIdusuariocadastro($idusuariocadastro) {
+    $this->idusuariocadastro = $idusuariocadastro;
 		return $this;
   }
 

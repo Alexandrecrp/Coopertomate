@@ -2,6 +2,7 @@
 session_start();
 require_once("classes/control/ConexaoControl/RegistroConexao.php");
 require_once("classes/control/ConexaoControl/Conexao.php");
+require_once("classes/control/UsuarioControl/RetornaIdUsuario.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
 if ($_SESSION['logado'] != 1) {
@@ -43,10 +44,12 @@ if ($_SESSION['logado'] != 1) {
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 					  <ul class="nav navbar-nav">
+							<li><a href="cadastro.php" class="colorwhite">Cadastro de Usuário</a></li>
 							<li><a href="view/produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 							<li><a href="view/fazenda/listafazenda.php" class="colorwhite">Fazenda</a></li>
 							<li><a href="view/cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
 							<li><a href="view/lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
+							<li><a href="view/lotevenda/listalotevenda.php" class="colorwhite">Venda de lotes</a></li>
 					  </ul>
 					  <ul class="nav navbar-nav navbar-right">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>

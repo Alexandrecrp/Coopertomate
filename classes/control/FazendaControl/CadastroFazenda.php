@@ -16,9 +16,10 @@ class CadastroFazenda {
 				try {
 				  $fazenda = $this->fazenda;
 					$stmt = $this->conn->prepare(
-						'INSERT INTO fazenda (produtor, fazenda, ie, cnpj, cgc, endereco, cidade,	ccir,	estado,	cep, email, telefone,	latitude,	longitude)
+						'INSERT INTO fazenda (idusuariocadastro, produtor, fazenda, ie, cnpj, cgc, endereco, cidade,	ccir,	estado,	cep, email, telefone,	latitude,	longitude)
 																	VALUES
-																	(:produtor, :fazenda, :ie, :cnpj, :cgc, :endereco, :cidade,	:ccir,	:estado,	:cep,	:email, :telefone, :latitude,	:longitude)');
+																	(:idusuariocadastro, :produtor, :fazenda, :ie, :cnpj, :cgc, :endereco, :cidade,	:ccir,	:estado,	:cep,	:email, :telefone, :latitude,	:longitude)');
+											$stmt->bindValue(':idusuariocadastro', $fazenda->getIdusuariocadastro());
 											$stmt->bindValue(':produtor', $fazenda->getProdutor());
 											$stmt->bindValue(':fazenda', $fazenda->getFazenda());
 											$stmt->bindValue(':ie', $fazenda->getIe());

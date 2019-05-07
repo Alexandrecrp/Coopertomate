@@ -199,6 +199,7 @@ if ($_SESSION['logado'] != 1) {
 if (isset($_POST['btnSubmit'])) {
 	//classe responsável por setar valores da entidade fazenda
 	$fazenda = new Fazenda();
+	$fazenda->setIdusuariocadastro($_SESSION['id']);
 	$fazenda->setProdutor($_POST['produtor']);
 	$fazenda->setFazenda($_POST['fazenda']);
 	$fazenda->setIe($_POST['ie']);

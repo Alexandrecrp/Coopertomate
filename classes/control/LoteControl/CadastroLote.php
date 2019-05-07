@@ -16,9 +16,10 @@ class CadastroLote {
 				try {
 				  $lote = $this->lote;
 					$stmt = $this->conn->prepare(
-																'INSERT INTO lote (lote, cod_fazenda, qtdinicial, qtdvendida)
+																'INSERT INTO lote (idusuariocadastro, lote, cod_fazenda, qtdinicial, qtdvendida)
 																	VALUES
-																	(:lote, :cod_fazenda, :qtdinicial, :qtdvendida)');
+																	(:idusuariocadastro, :lote, :cod_fazenda, :qtdinicial, :qtdvendida)');
+																	$stmt->bindParam(":idusuariocadastro", $lote->getIdusuariocadastro());
 																	$stmt->bindParam(":lote", $lote->getLote());
 																	$stmt->bindParam(":cod_fazenda", $lote->getCod_fazenda());
 																	$stmt->bindParam(":qtdinicial", $lote->getQtdinicial());

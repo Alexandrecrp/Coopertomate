@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("classes/control/ConexaoControl/RegistroConexao.php");
 require_once("classes/model/Usuario.php");
 require_once("classes/control/UsuarioControl/ConsultaUsuario.php");
@@ -7,7 +8,14 @@ require_once("classes/model/EnviarEmailConfirmacaoCadastro.php");
 require_once("classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
-?>
+if ($_SESSION['logado'] != 1) {
+    ?>
+    <script type="text/javascript">
+        document.location.href = "index.php?erro=1";
+    </script>
+    <?php
+} else {
+    ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -27,9 +35,35 @@ $registrodeconexao->set('Connection', $conn);
 	    <link rel="shortcut icon" href="img/logo2.png" />
     </head>
     <body>
-      <div class="container"></br></br></br>
+			<nav class="navbar navbar-inverse">
+			  <div class="container-fluid">
+					<div class="navbar-header">
+					  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					  </button>
+					  <a class="navbar-brand" href="#"></a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+					  <ul class="nav navbar-nav">
+							<li><a href="cadastro.php" class="colorwhite">Cadastro de Usuário</a></li>
+							<li><a href="view/produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
+							<li><a href="view/fazenda/listafazenda.php" class="colorwhite">Fazenda</a></li>
+							<li><a href="view/cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
+							<li><a href="view/lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
+							<li><a href="view/lotevenda/listalotevenda.php" class="colorwhite">Venda de lotes</a></li>
+					  </ul>
+					  <ul class="nav navbar-nav navbar-right">
+							<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
+							<li><a href="?acao=sair"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+					  </ul>
+					</div>
+			  </div>
+			</nav>
+			<div class="container">
+				<h3 class="page-header">Cadastro de Usuário</h3>
 				<form method="post" class="form-signin" name="frmLogin">
-					<div class="alert">
 						<tr>
 							<td><h5 class="colorwhite">CPF:</h5></td>
 							<td><input type="text" name="txtCpf" class="form-control" placeholder="00000000000" autocomplete="off" /></td>
@@ -51,14 +85,13 @@ $registrodeconexao->set('Connection', $conn);
 							<td><input type="password" id="txtSenha" name="txtSenha" class="form-control" placeholder="*********" autocomplete="off" /></td>
 							<td colspan="2">
 							<center>
-								<input type="submit" name="btnSubmit" value="Cadastrar" class="btn btn-danger"  /> <td><a href="index.php"  class="btn btn-default">Voltar</a></td>
+								<input type="submit" name="btnSubmit2" value="Cadastrar" class="btn btn-danger"  /> <td><a href="painel.php"  class="btn btn-default">Voltar</a></td>
 							</center>
 							</td>
 						</tr>
 					</table>
 				</form>
 			</div>
-		</div>
 		<footer class="footer">
 				<p><center>&copy; CooperTomate.</center></p>
 		</footer>
@@ -74,9 +107,10 @@ $registrodeconexao->set('Connection', $conn);
     </body>
 </html>
 <?php
-if (isset($_POST['btnSubmit'])) {
+if (isset($_POST['btnSubmit2'])) {
 	//classe responsável por setar valores da entidade usuario
 	$usuario = new Usuario();
+	$usuario->setIdusuariocadastro($_SESSION['id']);
 	$usuario->setCpf($_POST['txtCpf']);
 	$usuario->setNome($_POST['txtNome']);
 	$usuario->setEmail($_POST['txtEmail']);
@@ -96,6 +130,18 @@ if (isset($_POST['btnSubmit'])) {
 	alert("CPF já cadastrado.");
 </script>
 <?php
+	}
+}
+if (isset($_GET["acao"])) {
+
+	if ($_GET["acao"] == "sair") {
+			$_SESSION['logado'] = 0;
+			?>
+			<script type="text/javascript">
+					document.location.href = "index.php?erro=2";
+			</script>
+			<?php
+		}
 	}
 }
 ?>

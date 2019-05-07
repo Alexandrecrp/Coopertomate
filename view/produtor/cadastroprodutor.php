@@ -170,6 +170,7 @@ if ($_SESSION['logado'] != 1) {
 if (isset($_POST['btnSubmit'])) {
 	//classe responsável por setar valores da entidade produtor
 	$produtor = new Produtor();
+	$produtor->setIdusuariocadastro($_SESSION['id']);
 	$produtor->setNome($_POST['nome']);
 	$produtor->setCpf($_POST['cpf']);
 	$produtor->setEndereco($_POST['endereco']);

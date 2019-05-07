@@ -16,9 +16,10 @@ class CadastroProdutor {
 				try {
 				  $produtor = $this->produtor;
 					$stmt = $this->conn->prepare(
-						'INSERT INTO produtor (nome, cpf, endereco, numero, bairro, complemento, cidade,	estado,	cep, email, telefone)
+						'INSERT INTO produtor (idusuariocadastro, nome, cpf, endereco, numero, bairro, complemento, cidade,	estado,	cep, email, telefone)
 																	VALUES
-																	(:nome, :cpf, :endereco, :numero, :bairro, :complemento, :cidade,	:estado,	:cep,	:email, :telefone)');
+																	(:idusuariocadastro, :nome, :cpf, :endereco, :numero, :bairro, :complemento, :cidade,	:estado,	:cep,	:email, :telefone)');
+											$stmt->bindValue(':idusuariocadastro', $produtor->getIdusuariocadastro());
 											$stmt->bindValue(':nome', $produtor->getNome());
 											$stmt->bindValue(':cpf', $produtor->getCpf());
 											$stmt->bindValue(':endereco', $produtor->getEndereco());

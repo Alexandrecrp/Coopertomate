@@ -16,8 +16,9 @@ class CadastroUsuario {
 									try {
 										  $aluno = $this->usuario;
 											$stmt = $this->conn->prepare(
-													'INSERT INTO usuario (cpf, nome, email, senha) VALUES (:cpf, :nome, :email, :senha)'
+													'INSERT INTO usuario (idusuariocadastro, cpf, nome, email, senha) VALUES (:idusuariocadastro, :cpf, :nome, :email, :senha)'
 											);
+											$stmt->bindValue(':idusuariocadastro', $aluno->getIdusuariocadastro());
 											$stmt->bindValue(':cpf', $aluno->getCpf());
 											$stmt->bindValue(':nome', $aluno->getNome());
 											$stmt->bindValue(':email', $aluno->getEmail());
