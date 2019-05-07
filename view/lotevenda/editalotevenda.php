@@ -49,6 +49,7 @@ if ($_SESSION['logado'] != 1) {
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 				  <ul class="nav navbar-nav">
+						<li><a href="../../cadastro.php" class="colorwhite">Cadastro de Usuário</a></li>
 						<li><a href="../produtor/listaprodutor.php" class="colorwhite">Produtor</a></li>
 						<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
 						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>

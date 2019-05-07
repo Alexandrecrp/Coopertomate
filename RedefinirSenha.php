@@ -17,7 +17,7 @@ $registrodeconexao->set('Connection', $conn);
 			<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 			<link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 			<!-- Custom styles for this template -->
-			<link href="assets/css/painel.css" rel="stylesheet">
+			<link href="assets/css/login.css" rel="stylesheet">
 			<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 			<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 			<script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -29,17 +29,13 @@ $registrodeconexao->set('Connection', $conn);
             <form method="post" class="form-signin" name="frmRedefinirSenha">
                 <div class="alert">
 					<table>
-						<center>
-							<img src="img/portal.png">
-							<h2 class="page-header"></h2>
-						</center>
-						<p class="colorwhite">Insira corretamente sua senha e clique no botão alterar.</p>
+						<p class="">Insira corretamente sua senha e clique no botão alterar.</p>
 						<tr>
-							<td class="colorwhite">Senha:</td>
+							<td class="">Senha:</td>
 							<td><input onKeyUp="validarSenha('txtPass', 'txtPassAccept', 'resultadoCadastro');" class="form-control"  type="password" id="txtPass" name="txtPass" placeholder="*********" autocomplete="off" class="inputForm" /></td>
 						</tr>
 						<tr>
-							<td class="colorwhite">Confirmar senha:</td>
+							<td class="">Confirmar senha:</td>
 							<td><input type="password" onKeyUp="validarSenha('txtPass', 'txtPassAccept', 'resultadoCadastro');" class="form-control"  id="txtPassAccept" name="txtPassAccept" placeholder="*********" autocomplete="off" class="inputForm" /></td>
 						</tr>
 						<tr>

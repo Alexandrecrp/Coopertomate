@@ -14,7 +14,7 @@ if ($_SESSION['logado'] != 1) {
 } else {
     ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="bg_video">
     <head>
 	    <meta charset="UTF-8">
 	    <title>.::CooperTomate::.</title>
@@ -24,7 +24,7 @@ if ($_SESSION['logado'] != 1) {
 			<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 			<link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 			<!-- Custom styles for this template -->
-			<link href="assets/css/painel.css" rel="stylesheet">
+			<link href="assets/css/painelone.css" rel="stylesheet">
 			<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 			<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 			<script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -49,7 +49,7 @@ if ($_SESSION['logado'] != 1) {
 							<li><a href="view/fazenda/listafazenda.php" class="colorwhite">Fazenda</a></li>
 							<li><a href="view/cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
 							<li><a href="view/lote/listalote.php" class="colorwhite">Cadastro Lotes</a></li>
-							<li><a href="view/lotevenda/listalotevenda.php" class="colorwhite">Venda de lotes</a></li>
+							<li><a href="view/lotevenda/listalotevenda.php" class="colorwhite">Vendas de lotes</a></li>
 					  </ul>
 					  <ul class="nav navbar-nav navbar-right">
 							<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
@@ -58,19 +58,25 @@ if ($_SESSION['logado'] != 1) {
 					</div>
 			  </div>
 			</nav>
-			<div class="container">
-				<h3 class="page-header">Olá</h3>
-			<div class="alert aler-warning">
 
-			</div>
-			<h4 class="page-header"></h4>
-			<h4 class="">Última cotação enviada</h4>
+		<div class="container">
+
 		</div>
+
+		<!--<div class="container-fluid">
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+				<center>
+					<div class="carousel-inner" role="listbox">
+						<div class="item active"><a href="#" target="_top"><img src="img/tomatethree.jpg"></a></div>
+						<div class="item"><a href="#" target="_top"><img src="img/tomatethree.jpg"></a></div>
+						<div class="item"><a href="#" target="_top"><img src="img/tomatethree.jpg"></a></div>
+					</div>
+				</center>
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+		</div>-->
 		<footer class="footer">
 				<p><center>&copy; CooperTomate.</center></p>
 		</footer>
-		</br></br>
-
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
@@ -79,8 +85,9 @@ if ($_SESSION['logado'] != 1) {
 		<script src="dist/js/bootstrap.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-        </body>
-    </html>
+
+  </body>
+</html>
 
     <?php
 }

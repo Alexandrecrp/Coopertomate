@@ -63,33 +63,43 @@ if ($_SESSION['logado'] != 1) {
 			</nav>
 			<div class="container">
 				<h3 class="page-header">Cadastro de Usuário</h3>
-				<form method="post" class="form-signin" name="frmLogin">
-						<tr>
-							<td><h5 class="colorwhite">CPF:</h5></td>
-							<td><input type="text" name="txtCpf" class="form-control" placeholder="00000000000" autocomplete="off" /></td>
-						</tr>
-						<tr>
-							<td><h5 class="colorwhite">Nome:</h5></td>
-							<td><input type="text" name="txtNome" class="form-control" placeholder="Miguel Dias" autocomplete="off" /></td>
-						</tr>
-						<tr>
-							<td><h5 class="colorwhite">E-mail:</h5></td>
-							<td><input type="text" name="txtEmail" class="form-control" placeholder="email@dominio.com" autocomplete="off" /></td>
-						</tr>
-						<tr>
-							<td><h5 class="colorwhite">Senha:</h5></td>
-							<td><input type="password" id="txtPass" name="txtPass" class="form-control" placeholder="*********" autocomplete="off" /></td>
-						</tr>
-						<tr>
-							<td><h5 class="colorwhite">Confirmar senha:</h5></td>
-							<td><input type="password" id="txtSenha" name="txtSenha" class="form-control" placeholder="*********" autocomplete="off" /></td>
-							<td colspan="2">
-							<center>
-								<input type="submit" name="btnSubmit2" value="Cadastrar" class="btn btn-danger"  /> <td><a href="painel.php"  class="btn btn-default">Voltar</a></td>
-							</center>
-							</td>
-						</tr>
-					</table>
+				<form method="post" class="form-signin-fluid" name="frmLogin">
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputCPF">CPF</label>
+								<input type="text" name="txtCpf" class="form-control" placeholder="00000000000" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputNome">Nome</label>
+								<input type="text" name="txtNome" class="form-control" placeholder="Miguel Dias" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputEmail">E-mail</label>
+								<input type="text" name="txtEmail" class="form-control" placeholder="email@dominio.com" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputSenha">Senha</label>
+								<input type="password" id="txtPass" name="txtPass" class="form-control" placeholder="*********" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputConfirmarsenha">Confirmar senha</label>
+								<input type="password" id="txtSenha" name="txtSenha" class="form-control" placeholder="*********" autocomplete="off" />
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="nav navbar-nav navbar-right">
+									<input type="submit" name="btnSubmit2" value="Cadastrar" class="btn btn-danger"  /> <td><a href="painel.php"  class="btn btn-default">Voltar</a></td>
+						</div>
+						<h3 class="page-header"></h3>
+					</div>
 				</form>
 			</div>
 		<footer class="footer">
