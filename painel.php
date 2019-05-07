@@ -75,7 +75,7 @@ if ($_SESSION['logado'] != 1) {
 				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 		</div>-->
 		<footer class="footer">
-				<p><center>&copy; CooperTomate.</center></p>
+				<p><center>&copy; CooperTomate - <? echo date("Y");?>.</center></p>
 		</footer>
 		<!-- Bootstrap core JavaScript
 		================================================== -->
