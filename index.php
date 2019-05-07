@@ -65,7 +65,7 @@ if (isset($_POST['btnSubmit'])) {
 								</div>
 								</br>
 								<center>
-									<a href="recuperarSenha.php" class="colorwhite">Recuperar Senha</a>
+									<a href="recuperarSenha.php" class="colorwhite"> Recuperar Senha</a>
 								</center>
 						</div>
 		      </form>
