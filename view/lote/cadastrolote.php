@@ -3,6 +3,14 @@ session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Fazenda.php");
 require_once("../../classes/control/FazendaControl/ListaFazenda.php");
+require_once("../../classes/model/Grupo.php");
+require_once("../../classes/control/GrupoControl/ListaGrupo.php");
+require_once("../../classes/model/Cores.php");
+require_once("../../classes/control/CoresControl/ListaCores.php");
+require_once("../../classes/model/Calibre.php");
+require_once("../../classes/control/CalibreControl/ListaCalibre.php");
+require_once("../../classes/model/Categoria.php");
+require_once("../../classes/control/CategoriaControl/ListaCategoria.php");
 require_once("../../classes/model/Lote.php");
 require_once("../../classes/control/LoteControl/ConsultaLote.php");
 require_once("../../classes/control/LoteControl/CadastroLote.php");
@@ -90,6 +98,68 @@ if ($_SESSION['logado'] != 1) {
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-3">
+							<label for="inputState">Grupo</label>
+							<select name="cod_grupo" class="form-control" value="" required>
+								<option selected>Selecione uma grupo...</option>
+								<?php
+									$listagrupo = new ListaGrupo;
+									$resultado = $listagrupo->getAll();
+									foreach($resultado as $grupo) {
+								?>
+										<option value="<?=($grupo->getId());?>"><?=($grupo->getGrupo());?></option>
+								<?php
+							}
+							?>
+							</select>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="inputState">Cores</label>
+							<select name="cod_cores" class="form-control" value="" required>
+								<option selected>Selecione uma cor...</option>
+								<?php
+									$listacores = new ListaCores;
+									$resultado = $listacores->getAll();
+									foreach($resultado as $cores) {
+								?>
+										<option value="<?=($cores->getId());?>"><?=($cores->getCores());?></option>
+								<?php
+							}
+							?>
+							</select>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="inputState">Calibre</label>
+							<select name="cod_calibre" class="form-control" value="" required>
+								<option selected>Selecione um calibre...</option>
+								<?php
+									$listacalibre = new ListaCalibre;
+									$resultado = $listacalibre->getAll();
+									foreach($resultado as $calibre) {
+								?>
+										<option value="<?=($calibre->getId());?>"><?=($calibre->getCalibre());?></option>
+								<?php
+							}
+							?>
+							</select>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="inputState">Categoria</label>
+							<select name="cod_categoria" class="form-control" value="" required>
+								<option selected>Selecione uma categoria...</option>
+								<?php
+									$listacategoria = new ListaCategoria;
+									$resultado = $listacategoria->getAll();
+									foreach($resultado as $categoria) {
+								?>
+										<option value="<?=($categoria->getId());?>"><?=($categoria->getCategoria());?></option>
+								<?php
+							}
+							?>
+							</select>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-3">
 							<label for="inputZip">Quantidade Inicial</label>
 							<input type="text" name="qtdinicial" class="form-control" placeholder="234.2" pattern="([-0-9]+\.)[\d.]*" required>
 						</div>
@@ -129,6 +199,10 @@ if (isset($_POST['btnSubmit'])) {
 	$lote->setIdusuariocadastro($_SESSION['id']);
 	$lote->setLote($_POST['lote']);
 	$lote->setCod_fazenda($_POST['cod_fazenda']);
+	$lote->setCod_grupo($_POST['cod_grupo']);
+	$lote->setCod_cores($_POST['cod_cores']);
+	$lote->setCod_calibre($_POST['cod_calibre']);
+	$lote->setCod_categoria($_POST['cod_categoria']);
 	$lote->setQtdinicial($_POST['qtdinicial']);
 	$lote->setQtdvendida($_POST['qtdvendida']);
 	//classe responsável por consultar se lote existe ou não

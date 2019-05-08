@@ -6,6 +6,10 @@ class Lote {
 		private $idusuariocadastro;
 		private $lote;
 		private $cod_fazenda;
+		private $cod_grupo;
+		private $cod_cores;
+		private $cod_calibre;
+		private $cod_categoria;
 		private $qtdinicial;
 		private $qtdvendida;
 
@@ -42,6 +46,42 @@ class Lote {
 
 	public function setCod_fazenda($fazenda) {
 		$this->fazenda = $fazenda;
+		return $this;
+	}
+
+	public function getCod_grupo() {
+		return $this->grupo;
+	}
+
+	public function setCod_grupo($grupo) {
+		$this->grupo = $grupo;
+		return $this;
+	}
+
+	public function getCod_cores() {
+		return $this->cores;
+	}
+
+	public function setCod_cores($cores) {
+		$this->cores = $cores;
+		return $this;
+	}
+
+	public function getCod_calibre() {
+		return $this->cod_calibre;
+	}
+
+	public function setCod_calibre($cod_calibre) {
+		$this->cod_calibre = $cod_calibre;
+		return $this;
+	}
+
+	public function getCod_categoria() {
+		return $this->cod_categoria;
+	}
+
+	public function setCod_categoria($cod_categoria) {
+		$this->cod_categoria = $cod_categoria;
 		return $this;
 	}
 

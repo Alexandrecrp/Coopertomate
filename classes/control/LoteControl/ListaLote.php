@@ -22,6 +22,10 @@ class ListaLote {
 								$lote->setId($row->id);
 								$lote->setLote($row->lote);
 								$lote->setCod_fazenda($row->cod_fazenda);
+								$lote->setCod_grupo($row->cod_grupo);
+								$lote->setCod_cores($row->cod_cores);
+								$lote->setCod_calibre($row->cod_calibre);
+								$lote->setCod_categoria($row->cod_categoria);
 								$lote->setQtdinicial($row->qtdinicial);
 								$lote->setQtdvendida($row->qtdvendida);
 								$resultadolote[] = $lote;
