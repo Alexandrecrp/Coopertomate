@@ -1,12 +1,15 @@
 <?php
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
-require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ListaEditaFazenda.php");
-require_once("../../classes/control/FazendaControl/ListaFazendaExcetoSelecionada.php");
+require_once("../../classes/model/Lotevenda.php");
+require_once("../../classes/control/LotevendaControl/ListaEditaLotevenda.php");
+require_once("../../classes/control/LotevendaControl/AtualizaLotevenda.php");
 require_once("../../classes/model/Lote.php");
 require_once("../../classes/control/LoteControl/ListaEditaLote.php");
-require_once("../../classes/control/LoteControl/AtualizaLote.php");
+require_once("../../classes/control/LoteControl/ListaLoteExcetoSelecionado.php");
+require_once("../../classes/model/Cliente.php");
+require_once("../../classes/control/ClienteControl/ListaEditaCliente.php");
+require_once("../../classes/control/ClienteControl/ListaClienteExcetoSelecionado.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -54,6 +57,7 @@ if ($_SESSION['logado'] != 1) {
 						<li><a href="listafazenda.php" class="colorwhite">Fazendas</a></li>
 						<li><a href="../cliente/listacliente.php" class="colorwhite">Cadastro clientes</a></li>
 						<li><a href="" class="colorwhite">Cadastro Lotes</a></li>
+						<li><a href="listalotevenda.php" class="colorwhite">Vendas de Lotes</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
@@ -63,43 +67,67 @@ if ($_SESSION['logado'] != 1) {
 			  </div>
 			</nav>
       <div class="container">
-				<h3 class="page-header">Atualizar Lote</h3>
+				<h3 class="page-header">Atualizar Venda de Lote</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
-					$listalote = new ListaEditarLote;
-					$resultado = $listalote->getAll($_GET['idlote']);
-					foreach($resultado as $lote) {
+					$listalotevenda = new ListaEditarLotevenda;
+					$resultado = $listalotevenda->getAll($_GET['idlotevenda']);
+					foreach($resultado as $lotevenda) {
 						?>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
 							<label for="inputEmail4">Código</label>
-							<input type="text" name="idlote" class="form-control" value="<?php echo $lote->getId();?>" required readonly>
+							<input type="text" name="idlotevenda" class="form-control" value="<?php echo $lotevenda->getId();?>" required readonly>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
-							<label for="inputEmail4">Lote</label>
-							<input type="text" name="lote" class="form-control" value="<?php echo $lote->getLote();?>" required>
+							<label for="inputEmail4">Venda</label>
+							<input type="text" name="venda" class="form-control" value="<?php echo $lotevenda->getVenda();?>" required readonly>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-12">
-							<label for="inputState">Fazenda</label>
-							<select name="cod_fazenda" class="form-control" value="" required>
-								<option>Selecione uma fazenda...</option>
+							<label for="inputState">Lote</label>
+							<select name="cod_lote" class="form-control" value="" required>
+								<option>Selecione um lote...</option>
 								<?php
-									$listafazenda = new ListaEditarFazenda;
-									$resultado = $listafazenda->getAll($lote->getCod_fazenda());
-									foreach($resultado as $fazendaselecionada) {
+									$listalote = new ListaEditarLote;
+									$resultado = $listalote->getAll($lotevenda->getCod_lote());
+									foreach($resultado as $loteselecionados) {
 								?>
-									<option value="<?=$fazendaselecionada->getId();?>" selected><?=$fazendaselecionada->getFazenda();?></option>
+									<option value="<?=$loteselecionados->getId();?>" selected><?=$loteselecionados->getLote();?></option>
 								<?php
 								}
-									$listafazendaexcetoselecionado = new ListaFazendaExcetoSelecionada;
-									$resultadoexcetoselecionado = $listafazendaexcetoselecionado->getAllExceto($fazendaselecionada->getId());
-									foreach($resultadoexcetoselecionado as $fazendaexcetoselecionada) {
+									$listaloteexcetoselecionado = new ListaLoteExcetoSelecionado;
+									$resultadoexcetoselecionado = $listaloteexcetoselecionado->getAllExceto($loteselecionados->getId());
+									foreach($resultadoexcetoselecionado as $loteexcetoselecionado) {
 								?>
-									<option value="<?=$fazendaexcetoselecionada->getId();?>"><?=$fazendaexcetoselecionada->getFazenda();?></option>
+									<option value="<?=$loteexcetoselecionado->getId();?>"><?=$loteexcetoselecionado->getLote();?></option>
+								<?php
+								}
+								?>
+							</select>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="form-group col-md-12">
+							<label for="inputState">Cliente</label>
+							<select name="cod_cliente" class="form-control" value="" required>
+								<option>Selecione um cliente...</option>
+								<?php
+									$listacliente = new ListaEditaCliente;
+									$resultado = $listacliente->getAll($lotevenda->getCod_cliente());
+									foreach($resultado as $clienteselecionado) {
+								?>
+									<option value="<?=$clienteselecionado->getId();?>" selected><?=$clienteselecionado->getCliente();?></option>
+								<?php
+								}
+									$listaclienteexcetoselecionado = new ListaClienteExcetoSelecionado;
+									$resultadoexcetoselecionado = $listaclienteexcetoselecionado->getAllExceto($clienteselecionado->getId());
+									foreach($resultadoexcetoselecionado as $clienteexcetoselecionado) {
+								?>
+									<option value="<?=$clienteexcetoselecionado->getId();?>"><?=$clienteexcetoselecionado->getCliente();?></option>
 								<?php
 								}
 								?>
@@ -108,19 +136,19 @@ if ($_SESSION['logado'] != 1) {
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-3">
-							<label for="inputZip">Quantidade Inicial</label>
-							<input type="text" name="qtdinicial" class="form-control" placeholder="18.646" value="<?php echo $lote->getQtdinicial();?>" pattern="([-0-9]+\.)[\d.]*" required>
+							<label for="inputZip">Quantidade Vendido</label>
+							<input type="text" name="qtdvendido" class="form-control" placeholder="48.1938" value="<?php echo $lotevenda->getQtdvendido();?>" pattern="([-0-9]+\.)[\d.]*" required>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-3">
-							<label for="inputZip">Quantidade Vendida</label>
-							<input type="text" name="qtdvendida" class="form-control" placeholder="48.1938" value="<?php echo $lote->getQtdvendida();?>" pattern="([-0-9]+\.)[\d.]*" required>
+							<label for="inputZip">Valor Negociado</label>
+							<input type="text" name="valornegociado" class="form-control" placeholder="48.1938" value="<?php echo $lotevenda->getValornegociado();?>" pattern="([-0-9]+\.)[\d.]*" required>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
 						<div class="nav navbar-nav navbar-right">
-							<input type="submit" name="btnSubmit2" value="Atualizar" class="btn btn-danger"/> <td><a href="listalote.php"  class="btn btn-default">Voltar</a></td>
+							<input type="submit" name="btnSubmit" value="Atualizar" class="btn btn-danger"/> <td><a href="listalotevenda.php"  class="btn btn-default">Voltar</a></td>
 						</div>
 					</br>
 						<h3 class="page-header"></h3>
@@ -143,17 +171,18 @@ if ($_SESSION['logado'] != 1) {
     </body>
 </html>
 <?php
-if (isset($_POST['btnSubmit2'])) {
-	//classe responsável por setar valores da entidade lote
-	$lote = new Lote();
-	$lote->setId($_POST['idlote']);
-	$lote->setLote($_POST['lote']);
-	$lote->setCod_fazenda($_POST['cod_fazenda']);
-	$lote->setQtdinicial($_POST['qtdinicial']);
-	$lote->setQtdvendida($_POST['qtdvendida']);
-	//classe responsável por atualizar lote
-	$atualizarlote = new atualizaLote($lote);
-	$atualizarlote->atualizarLote();
+if (isset($_POST['btnSubmit'])) {
+	//classe responsável por setar valores da entidade lotevenda
+	$lotevenda = new Lotevenda();
+	$lotevenda->setId($_POST['idlotevenda']);
+	$lotevenda->setVenda($_POST['venda']);
+	$lotevenda->setCod_lote($_POST['cod_lote']);
+	$lotevenda->setCod_cliente($_POST['cod_cliente']);
+	$lotevenda->setQtdvendido($_POST['qtdvendido']);
+	$lotevenda->setValornegociado($_POST['valornegociado']);
+		//classe responsável por cadastrar lote venda novo
+		$atualizarlotevenda = new atualizaLotevenda($lotevenda);
+		$atualizarlotevenda->atualizarLotevenda();
 }
 		if (isset($_GET["acao"])) {
 
