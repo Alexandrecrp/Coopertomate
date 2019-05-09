@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaCalibreExcetoSelecionado.php");
 
-class ListaCalibreExcetoSelecionado {
+class ListaCalibreExcetoSelecionado implements InterfaceListaCalibreExcetoSelecionado{
 
 		private $conn;
 

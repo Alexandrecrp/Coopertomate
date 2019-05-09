@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaCalibre.php");
 
-class ListaCalibre {
+class ListaCalibre implements InterfaceListaCalibre{
 
 		private $conn;
 

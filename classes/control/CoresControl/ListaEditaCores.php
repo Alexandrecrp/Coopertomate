@@ -1,6 +1,6 @@
 <?php
-
-class ListaEditaCores {
+require_once("InterfaceListaEditaCores.php");
+class ListaEditaCores implements InterfaceListaEditaCores{
 
 		private $conn;
 

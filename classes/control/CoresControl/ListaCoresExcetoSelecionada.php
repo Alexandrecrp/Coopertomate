@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaCoresExcetoSelecionada.php");
 
-class ListaCoresExcetoSelecionada {
+class ListaCoresExcetoSelecionada implements InterfaceListaCoresExcetoSelecionada {
 
 		private $conn;
 

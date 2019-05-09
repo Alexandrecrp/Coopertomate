@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaEditaGrupo.php");
 
-class ListaEditaGrupo {
+class ListaEditaGrupo implements InterfaceListaEditaGrupo{
 
 		private $conn;
 
