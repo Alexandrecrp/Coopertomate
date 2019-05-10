@@ -7,6 +7,7 @@ require_once("../../classes/control/ProdutorControl/ListaProdutorExcetoSeleciona
 require_once("../../classes/model/Fazenda.php");
 require_once("../../classes/control/FazendaControl/ListaEditafazenda.php");
 require_once("../../classes/control/FazendaControl/Atualizafazenda.php");
+require_once("../../classes/control/FazendaControl/ListaFazendaExcetoSelecionada.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -237,8 +238,24 @@ if (isset($_POST['btnSubmit2'])) {
 	$fazenda->setLatitude($_POST['latitude']);
 	$fazenda->setLongitude($_POST['longitude']);
 	//classe responsável por atualizar fazenda
-	$atualizarfazenda = new atualizaFazenda($fazenda);
-	$atualizarfazenda->atualizarFazenda();
+		$consultafazenda = new ListaFazendaExcetoSelecionada;
+		$resultadoexcetoselecionado = $consultafazenda->getAllExceto(trim($_POST['idfazenda']));
+		foreach($resultadoexcetoselecionado as $fazendaexcetoselecionada) {
+			if(($fazendaexcetoselecionada->getCnpj())==($fazenda->getCnpj())){
+				$outrolotecommesmocodigo = 1;
+			}
+		}
+		if($outrolotecommesmocodigo==1){
+			?>
+			<script>
+				alert("O sistema já possui uma fazenda cadastrada com esse CNPJ!");
+				window.location.replace("editafazenda.php?idfazenda=<?php echo $fazenda->getId();?>")
+			</script>
+			<?php
+				} else {
+		$atualizarfazenda = new atualizaFazenda($fazenda);
+		$atualizarfazenda->atualizarFazenda();
+	 }
 }
 		if (isset($_GET["acao"])) {
 

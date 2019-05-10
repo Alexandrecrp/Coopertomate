@@ -4,6 +4,7 @@ require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Cliente.php");
 require_once("../../classes/control/ClienteControl/ListaEditaCliente.php");
 require_once("../../classes/control/ClienteControl/AtualizaCliente.php");
+require_once("../../classes/control/ClienteControl/ListaClienteExcetoSelecionado.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -200,7 +201,7 @@ if (isset($_POST['btnSubmit2'])) {
 	$cliente = new Cliente();
 	$cliente->setId($_POST['idcliente']);
 	$cliente->setCliente($_POST['cliente']);
-	$cliente->setCnpj($_POST['cnpj']);
+	$cliente->setCnpj(trim($_POST['cnpj']));
 	$cliente->setIe($_POST['ie']);
 	$cliente->setEndereco($_POST['endereco']);
 	$cliente->setNumero($_POST['numero']);
@@ -214,8 +215,24 @@ if (isset($_POST['btnSubmit2'])) {
 	$cliente->setLatitude($_POST['latitude']);
 	$cliente->setLongitude($_POST['longitude']);
 	//classe responsável por atualizar cliente
-	$atualizarcliente = new atualizaCliente($cliente);
-	$atualizarcliente->atualizarCliente();
+		$consultacliente = new ListaClienteExcetoSelecionado;
+		$resultadoexcetoselecionado = $consultacliente->getAllExceto(trim($_POST['idcliente']));
+		foreach($resultadoexcetoselecionado as $clienteexcetoselecionada) {
+			if(($clienteexcetoselecionada->getCnpj())==($cliente->getCnpj())){
+				$outrolotecommesmocodigo = 1;
+			}
+		}
+		if($outrolotecommesmocodigo==1){
+			?>
+			<script>
+				alert("O sistema já possui um cliente cadastrado com esse CNPJ!");
+				window.location.replace("editacliente.php?idcliente=<?php echo $cliente->getId();?>")
+			</script>
+			<?php
+				} else {
+		$atualizarcliente = new atualizaCliente($cliente);
+		$atualizarcliente->atualizarCliente();
+	}
 }
 		if (isset($_GET["acao"])) {
 

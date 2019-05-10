@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaCliente.php");
 
-class ListaCliente {
+class ListaCliente implements InterfaceListaCliente{
 
 		private $conn;
 

@@ -19,6 +19,7 @@ require_once("../../classes/control/CategoriaControl/ListaCategoriaExcetoSelecio
 require_once("../../classes/model/Lote.php");
 require_once("../../classes/control/LoteControl/ListaEditaLote.php");
 require_once("../../classes/control/LoteControl/AtualizaLote.php");
+require_once("../../classes/control/LoteControl/ListaLoteExcetoSelecionado.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -250,19 +251,35 @@ if (isset($_POST['btnSubmit2'])) {
 	//classe responsável por setar valores da entidade lote
 	$lote = new Lote();
 	$lote->setId($_POST['idlote']);
-	$lote->setLote($_POST['lote']);
+	$lote->setLote(trim($_POST['lote']));
 	$lote->setCod_fazenda($_POST['cod_fazenda']);
 	$lote->setCod_grupo($_POST['cod_grupo']);
 	$lote->setCod_cores($_POST['cod_cores']);
 	$lote->setCod_calibre($_POST['cod_calibre']);
 	$lote->setCod_categoria($_POST['cod_categoria']);
-	$lote->setQtdinicial($_POST['qtdinicial']);
-	$lote->setQtdvendida($_POST['qtdvendida']);
+	$lote->setQtdinicial(trim($_POST['qtdinicial']));
+	$lote->setQtdvendida(trim($_POST['qtdvendida']));
 	//classe responsável por atualizar lote
-	$atualizarlote = new atualizaLote($lote);
-	$atualizarlote->atualizarLote();
+		$consultalote = new ListaLoteExcetoSelecionado;
+		$resultadoexcetoselecionado = $consultalote->getAllExceto($_POST['idlote']);
+		foreach($resultadoexcetoselecionado as $loteexcetoselecionado) {
+			if($loteexcetoselecionado->getLote()==$lote->getLote()){
+				$outrolotecommesmocodigo = 1;
+			}
+		}
+		if($outrolotecommesmocodigo==1){
+			?>
+			<script>
+				alert("O sistema já possui um lote cadastrado com esse código! Por favor, preencher o campo LOTE com outro código.");
+				window.location.replace("editalote.php?idlote=<?php echo $lote->getId();?>")
+			</script>
+			<?php
+				} else {
+					$atualizarlote = new atualizaLote($lote);
+					$atualizarlote->atualizarLote();
+				}
 }
-		if (isset($_GET["acao"])) {
+	if (isset($_GET["acao"])) {
 
 	    if ($_GET["acao"] == "sair") {
 	        $_SESSION['logado'] = 0;

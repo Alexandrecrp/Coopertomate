@@ -4,6 +4,7 @@ require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
 require_once("../../classes/control/ProdutorControl/ListaEditaProdutor.php");
 require_once("../../classes/control/ProdutorControl/AtualizaProdutor.php");
+require_once("../../classes/control/ProdutorControl/ListaProdutorExcetoSelecionado.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -83,7 +84,7 @@ if ($_SESSION['logado'] != 1) {
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-3">
 							<label for="inputPassword4">CPF</label>
-							<input type="text" name="cpf" class="form-control" placeholder="00000000000" value="<?php echo $produtor->getCpf();?>" pattern="[0-9]+$" oninvalid="setCustomValidity('Somente números')" maxlength="11" required>
+							<input type="text" name="cpf" class="form-control" placeholder="00000000000" value="<?php echo str_pad($produtor->getCpf(), 11, 0, STR_PAD_LEFT);?>" pattern="\d{3}\d{3}\d{3}\d{2}" oninvalid="setCustomValidity('Somente números')" maxlength="11" required>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
@@ -186,7 +187,7 @@ if (isset($_POST['btnSubmit2'])) {
 	$produtor = new Produtor();
 	$produtor->setId($_POST['idprodutor']);
 	$produtor->setNome($_POST['nome']);
-	$produtor->setCpf($_POST['cpf']);
+	$produtor->setCpf(trim($_POST['cpf']));
 	$produtor->setEndereco($_POST['endereco']);
 	$produtor->setNumero($_POST['numero']);
 	$produtor->setBairro($_POST['bairro']);
@@ -197,8 +198,24 @@ if (isset($_POST['btnSubmit2'])) {
 	$produtor->setEmail($_POST['email']);
 	$produtor->setTelefone($_POST['telefone']);
 	//classe responsável por atualizar produtor
-	$atualizarprodutor = new atualizaProdutor($produtor);
-	$atualizarprodutor->atualizarProdutor();
+	$consultaprodutor = new ListaProdutorExcetoSelecionado;
+	$resultadoexcetoselecionado = $consultaprodutor->getAllExceto(trim($_POST['idprodutor']));
+	foreach($resultadoexcetoselecionado as $produtorexcetoselecionado) {
+		if(($produtorexcetoselecionado->getCpf())==($produtor->getCpf())){
+			$outrolotecommesmocodigo = 1;
+		}
+	}
+	if($outrolotecommesmocodigo==1){
+		?>
+		<script>
+			alert("O sistema já possui um produtor cadastrado com esse CPF!");
+			window.location.replace("editarprodutor.php?idprodutor=<?php echo $produtor->getId();?>")
+		</script>
+		<?php
+			} else {
+				$atualizarprodutor = new atualizaProdutor($produtor);
+				$atualizarprodutor->atualizarProdutor();
+			}
 }
 		if (isset($_GET["acao"])) {
 

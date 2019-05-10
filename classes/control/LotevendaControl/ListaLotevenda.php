@@ -1,6 +1,7 @@
 <?php
+require_once("InterfaceListaLotevenda.php");
 
-class ListaLotevenda {
+class ListaLotevenda implements InterfaceListaLotevenda{
 
 		private $conn;
 

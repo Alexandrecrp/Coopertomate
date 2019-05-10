@@ -33,7 +33,7 @@ class CadastroLote {
 											?>
 												<script>
 													alert("Cadastro de Lote realizado com sucesso.");
-													window.location.replace("listalote.php")	;
+													window.location.replace("listalote.php");
 												</script>
 											<?php
 									}

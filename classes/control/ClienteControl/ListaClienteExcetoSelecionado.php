@@ -1,7 +1,7 @@
 <?php
-//require_once("InterfaceListaGrupoExcetoSelecionado.php");
+require_once("InterfaceListaClienteExcetoSelecionado.php");
 
-class ListaClienteExcetoSelecionado /*implements InterfaceListaGrupoExcetoSelecionado*/{
+class ListaClienteExcetoSelecionado implements InterfaceListaClienteExcetoSelecionado{
 
 		private $conn;
 
