@@ -19,12 +19,12 @@ class CadastroLotevenda {
 																'INSERT INTO lotevenda (idusuariocadastro, venda, cod_lote, cod_cliente, qtdvendido, valornegociado)
 																	VALUES
 																	(:idusuariocadastro, :venda, :cod_lote, :cod_cliente, :qtdvendido, :valornegociado)');
-																	$stmt->bindParam(":idusuariocadastro", $lotevenda->getIdusuariocadastro());
-																	$stmt->bindParam(":venda", $lotevenda->getVenda());
-																	$stmt->bindParam(":cod_lote", $lotevenda->getCod_lote());
-																	$stmt->bindParam(":cod_cliente", $lotevenda->getCod_cliente());
-																	$stmt->bindParam(":qtdvendido", $lotevenda->getQtdvendido());
-																	$stmt->bindParam(":valornegociado", $lotevenda->getValornegociado());
+																	$stmt->bindValue(":idusuariocadastro", $lotevenda->getIdusuariocadastro(), PDO::PARAM_INT);
+																	$stmt->bindValue(":venda", $lotevenda->getVenda(), PDO::PARAM_STR);
+																	$stmt->bindValue(":cod_lote", $lotevenda->getCod_lote(), PDO::PARAM_INT);
+																	$stmt->bindValue(":cod_cliente", $lotevenda->getCod_cliente(), PDO::PARAM_INT);
+																	$stmt->bindValue(":qtdvendido", $lotevenda->getQtdvendido());
+																	$stmt->bindValue(":valornegociado", $lotevenda->getValornegociado());
 																	$stmt->execute();
 																	$this->conn->commit();
 																	?>

@@ -18,18 +18,18 @@ class atualizaProdutor {
 					$stmt = $this->conn->prepare("UPDATE produtor SET
 					nome=:nome, cpf=:cpf, endereco=:endereco, numero=:numero, bairro=:bairro, complemento=:complemento, cidade=:cidade,	estado=:estado,
 						cep=:cep, email=:email, telefone=:telefone WHERE id=:id");
-											$stmt->bindParam(":id", $produtor->getId());
-											$stmt->bindParam(":nome", $produtor->getNome());
-											$stmt->bindParam(":cpf", $produtor->getCpf());
-											$stmt->bindParam(":endereco", $produtor->getEndereco());
-											$stmt->bindParam(':numero', $produtor->getNumero());
-											$stmt->bindParam(':bairro', $produtor->getBairro());
-											$stmt->bindParam(':complemento', $produtor->getComplemento());
-											$stmt->bindParam(":cidade", $produtor->getCidade());
-											$stmt->bindParam(":estado", $produtor->getEstado());
-											$stmt->bindParam(":cep", $produtor->getCep());
-											$stmt->bindParam(":email", $produtor->getEmail());
-											$stmt->bindParam(":telefone", $produtor->getTelefone());
+											$stmt->bindParam(":id", $produtor->getId(), PDO::PARAM_INT);
+											$stmt->bindParam(":nome", $produtor->getNome(), PDO::PARAM_STR);
+											$stmt->bindParam(":cpf", $produtor->getCpf(), PDO::PARAM_INT);
+											$stmt->bindParam(":endereco", $produtor->getEndereco(), PDO::PARAM_STR);
+											$stmt->bindParam(':numero', $produtor->getNumero(), PDO::PARAM_INT);
+											$stmt->bindParam(':bairro', $produtor->getBairro(), PDO::PARAM_STR);
+											$stmt->bindParam(':complemento', $produtor->getComplemento(), PDO::PARAM_STR);
+											$stmt->bindParam(":cidade", $produtor->getCidade(), PDO::PARAM_STR);
+											$stmt->bindParam(":estado", $produtor->getEstado(), PDO::PARAM_STR);
+											$stmt->bindParam(":cep", $produtor->getCep(), PDO::PARAM_INT);
+											$stmt->bindParam(":email", $produtor->getEmail(), PDO::PARAM_STR);
+											$stmt->bindParam(":telefone", $produtor->getTelefone(), PDO::PARAM_INT);
 											$stmt->execute();
 											$this->conn->commit();
 											?>

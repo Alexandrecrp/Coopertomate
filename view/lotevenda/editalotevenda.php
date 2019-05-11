@@ -83,7 +83,7 @@ if ($_SESSION['logado'] != 1) {
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
 							<label for="inputEmail4">Venda</label>
-							<input type="text" name="venda" class="form-control" value="<?php echo $lotevenda->getVenda();?>" required readonly>
+							<input type="text" name="venda" class="form-control" value="<?php echo $lotevenda->getVenda();?>" required>
 						</div>
 					</div>
 					<div class="form-row col-md-12">

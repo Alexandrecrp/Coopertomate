@@ -18,12 +18,12 @@ class atualizaLotevenda {
 					$stmt = $this->conn->prepare("UPDATE lotevenda SET
 					venda=:venda, cod_lote=:cod_lote, cod_cliente=:cod_cliente, qtdvendido=:qtdvendido,
 					valornegociado=:valornegociado WHERE id=:id");
-											$stmt->bindParam(":id", $lotevenda->getId());
-											$stmt->bindParam(":venda", $lotevenda->getVenda());
-											$stmt->bindParam(":cod_lote", $lotevenda->getCod_lote());
-											$stmt->bindParam(":cod_cliente", $lotevenda->getCod_cliente());
-											$stmt->bindParam(":qtdvendido", $lotevenda->getQtdvendido());
-											$stmt->bindParam(":valornegociado", $lotevenda->getValornegociado());
+											$stmt->bindValue(":id", $lotevenda->getId(), PDO::PARAM_INT);
+											$stmt->bindValue(":venda", $lotevenda->getVenda(), PDO::PARAM_STR);
+											$stmt->bindValue(":cod_lote", $lotevenda->getCod_lote(), PDO::PARAM_INT);
+											$stmt->bindValue(":cod_cliente", $lotevenda->getCod_cliente(), PDO::PARAM_INT);
+											$stmt->bindValue(":qtdvendido", $lotevenda->getQtdvendido());
+											$stmt->bindValue(":valornegociado", $lotevenda->getValornegociado());
 											$stmt->execute();
 											$this->conn->commit();
 											?>

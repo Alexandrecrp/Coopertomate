@@ -19,21 +19,21 @@ class atualizaCliente {
 						cliente=:cliente, cnpj=:cnpj, ie=:ie, endereco=:endereco, numero=:numero, bairro=:bairro,
 						complemento=:complemento, cidade=:cidade,	estado=:estado,	cep=:cep,
 						email=:email, telefone=:telefone, latitude=:latitude, longitude=:longitude WHERE id=:id");
-											$stmt->bindParam(":id", $cliente->getId());
-											$stmt->bindParam(':cliente', $cliente->getCliente());
-											$stmt->bindParam(':cnpj', $cliente->getCnpj());
-											$stmt->bindParam(':ie', $cliente->getIe());
-											$stmt->bindParam(':endereco', $cliente->getEndereco());
-											$stmt->bindParam(':numero', $cliente->getNumero());
-											$stmt->bindParam(':bairro', $cliente->getBairro());
-											$stmt->bindParam(':complemento', $cliente->getComplemento());
-											$stmt->bindParam(':cidade', $cliente->getCidade());
-											$stmt->bindParam(':estado', $cliente->getEstado());
-											$stmt->bindParam(':cep', $cliente->getCep());
-											$stmt->bindParam(':email', $cliente->getEmail());
-											$stmt->bindParam(':telefone', $cliente->getTelefone());
-											$stmt->bindParam(':latitude', $cliente->getLatitude());
-											$stmt->bindParam(':longitude', $cliente->getLongitude());
+											$stmt->bindValue(":id", $cliente->getId());
+											$stmt->bindValue(':cliente', $cliente->getCliente(), PDO::PARAM_STR);
+											$stmt->bindValue(':cnpj', $cliente->getCnpj(), PDO::PARAM_INT);
+											$stmt->bindValue(':ie', $cliente->getIe(), PDO::PARAM_INT);
+											$stmt->bindValue(':endereco', $cliente->getEndereco(), PDO::PARAM_STR);
+											$stmt->bindValue(':numero', $cliente->getNumero(), PDO::PARAM_INT);
+											$stmt->bindValue(':bairro', $cliente->getBairro(), PDO::PARAM_STR);
+											$stmt->bindValue(':complemento', $cliente->getComplemento(), PDO::PARAM_STR);
+											$stmt->bindValue(':cidade', $cliente->getCidade()), PDO::PARAM_STR;
+											$stmt->bindValue(':estado', $cliente->getEstado(), PDO::PARAM_STR);
+											$stmt->bindValue(':cep', $cliente->getCep(), PDO::PARAM_INT);
+											$stmt->bindValue(':email', $cliente->getEmail(), PDO::PARAM_STR);
+											$stmt->bindValue(':telefone', $cliente->getTelefone(), PDO::PARAM_INT);
+											$stmt->bindValue(':latitude', $cliente->getLatitude());
+											$stmt->bindValue(':longitude', $cliente->getLongitude());
 											$stmt->execute();
 											$this->conn->commit();
 											?>

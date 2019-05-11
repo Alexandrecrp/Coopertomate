@@ -67,7 +67,7 @@ if ($_SESSION['logado'] != 1) {
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-6">
 							<label for="inputCPF">CPF</label>
-								<input type="text" name="txtCpf" class="form-control" placeholder="00000000000" autocomplete="off" />
+								<input type="text" name="txtCpf" class="form-control" placeholder="00000000000" pattern="[0-9]+$" maxlength="11" autocomplete="off" />
 						</div>
 					</div>
 					<div class="form-row col-md-12">
@@ -79,7 +79,7 @@ if ($_SESSION['logado'] != 1) {
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-6">
 							<label for="inputEmail">E-mail</label>
-								<input type="text" name="txtEmail" class="form-control" placeholder="email@dominio.com" autocomplete="off" />
+								<input type="text" name="txtEmail" class="form-control" placeholder="email@dominio.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" autocomplete="off" />
 						</div>
 					</div>
 					<div class="form-row col-md-12">

@@ -19,21 +19,21 @@ class atualizaFazenda {
 					produtor=:produtor, fazenda=:fazenda, ie=:ie, cnpj=:cnpj,
 						cgc=:cgc, endereco=:endereco, cidade=:cidade,	ccir=:ccir,	estado=:estado,
 						cep=:cep, email=:email, telefone=:telefone,	latitude=:latitude,	longitude=:longitude WHERE id=:id");
-											$stmt->bindParam(":id", $fazenda->getId());
-											$stmt->bindParam(":produtor", $fazenda->getProdutor());
-											$stmt->bindParam(":fazenda", $fazenda->getFazenda());
-											$stmt->bindParam(":ie", $fazenda->getIe());
-											$stmt->bindParam(":cnpj", $fazenda->getCnpj());
-											$stmt->bindParam(":cgc", $fazenda->getCgc());
-											$stmt->bindParam(":endereco", $fazenda->getEndereco());
-											$stmt->bindParam(":cidade", $fazenda->getCidade());
-											$stmt->bindParam(":ccir", $fazenda->getCcir());
-											$stmt->bindParam(":estado", $fazenda->getEstado());
-											$stmt->bindParam(":cep", $fazenda->getCep());
-											$stmt->bindParam(":email", $fazenda->getEmail());
-											$stmt->bindParam(":telefone", $fazenda->getTelefone());
-											$stmt->bindParam(":latitude", $fazenda->getLatitude());
-											$stmt->bindParam(":longitude", $fazenda->getLongitude());
+											$stmt->bindValue(":id", $fazenda->getId());
+											$stmt->bindValue(':produtor', $fazenda->getProdutor(), PDO::PARAM_INT);
+											$stmt->bindValue(':fazenda', $fazenda->getFazenda(), PDO::PARAM_STR);
+											$stmt->bindValue(':ie', $fazenda->getIe(), PDO::PARAM_INT);
+											$stmt->bindValue(':cnpj', $fazenda->getCnpj(), PDO::PARAM_INT);
+											$stmt->bindValue(':cgc', $fazenda->getCgc(), PDO::PARAM_STR);
+											$stmt->bindValue(':endereco', $fazenda->getEndereco(), PDO::PARAM_STR);
+											$stmt->bindValue(':cidade', $fazenda->getCidade(), PDO::PARAM_STR);
+											$stmt->bindValue(':ccir', $fazenda->getCcir(), PDO::PARAM_INT);
+											$stmt->bindValue(':estado', $fazenda->getEstado(), PDO::PARAM_STR);
+											$stmt->bindValue(':cep', $fazenda->getCep(), PDO::PARAM_INT);
+											$stmt->bindValue(':email', $fazenda->getEmail(), PDO::PARAM_STR);
+											$stmt->bindValue(':telefone', $fazenda->getTelefone(), PDO::PARAM_INT);
+											$stmt->bindValue(':latitude', $fazenda->getLatitude());
+											$stmt->bindValue(':longitude', $fazenda->getLongitude());
 											$stmt->execute();
 											$this->conn->commit();
 											?>

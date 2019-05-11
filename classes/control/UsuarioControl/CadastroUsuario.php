@@ -18,11 +18,11 @@ class CadastroUsuario {
 											$stmt = $this->conn->prepare(
 													'INSERT INTO usuario (idusuariocadastro, cpf, nome, email, senha) VALUES (:idusuariocadastro, :cpf, :nome, :email, :senha)'
 											);
-											$stmt->bindValue(':idusuariocadastro', $aluno->getIdusuariocadastro());
-											$stmt->bindValue(':cpf', $aluno->getCpf());
-											$stmt->bindValue(':nome', $aluno->getNome());
-											$stmt->bindValue(':email', $aluno->getEmail());
-											$stmt->bindValue(':senha', $aluno->getSenha());
+											$stmt->bindValue(':idusuariocadastro', $aluno->getIdusuariocadastro(), PDO::PARAM_INT);
+											$stmt->bindValue(':cpf', $aluno->getCpf(), PDO::PARAM_INT);
+											$stmt->bindValue(':nome', $aluno->getNome(), PDO::PARAM_STR);
+											$stmt->bindValue(':email', $aluno->getEmail(), PDO::PARAM_STR);
+											$stmt->bindValue(':senha', $aluno->getSenha(), PDO::PARAM_STR);
 											$stmt->execute();
 											$this->conn->commit();
 											?>

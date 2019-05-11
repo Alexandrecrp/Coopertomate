@@ -69,7 +69,7 @@ if ($_SESSION['logado'] != 1) {
 						<tr>
 						  <th scope="col">Código</th>
 						  <th scope="col">Produtor</th>
-						  <th scope="col">Fazenda</th>
+						  <th scope="col">CPF</th>
 						  <th scope="col">Cidade</th>
 							<th scope="col">Email</th>
 							<th scope="col"><center>Ação</center></th>
@@ -91,7 +91,7 @@ if ($_SESSION['logado'] != 1) {
 								<?php echo $produtor->getNome();?>
 							</td>
 							<td width="200">
-								<?php echo $produtor->getCpf();?>
+								<?php echo str_pad($produtor->getCpf(), 11, 0, STR_PAD_LEFT);?>
 							</td>
 							<td width="200">
 								<?php echo $produtor->getCidade();?>
