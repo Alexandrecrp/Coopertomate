@@ -2,7 +2,7 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ListaEditaProdutor.php");
+require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
 require_once("../../classes/model/Fazenda.php");
 require_once("../../classes/control/FazendaControl/ListaFazenda.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
@@ -90,10 +90,12 @@ if ($_SESSION['logado'] != 1) {
 							</th>
 							<td width="200">
 								<?php
-									$listaprodutor = new ListaEditarProdutor;
-									$resultado = $listaprodutor->getAll($fazenda->getProdutor());
+									$listaprodutor = new ListaProdutor;
+									$resultado = $listaprodutor->getAll();
 									foreach($resultado as $produtorselecionado) {
+										if($produtorselecionado->getId()==$fazenda->getProdutor()) {
 										echo	$produtorselecionado->getNome();
+										}
 									}
 								?>
 							</td>

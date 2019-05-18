@@ -27,7 +27,7 @@ class CadastroCliente {
 				$stmt->bindValue(':numero', $cliente->getNumero(), PDO::PARAM_INT);
 				$stmt->bindValue(':bairro', $cliente->getBairro(), PDO::PARAM_STR);
 				$stmt->bindValue(':complemento', $cliente->getComplemento(), PDO::PARAM_STR);
-				$stmt->bindValue(':cidade', $cliente->getCidade()), PDO::PARAM_STR;
+				$stmt->bindValue(':cidade', $cliente->getCidade(), PDO::PARAM_STR);
 				$stmt->bindValue(':estado', $cliente->getEstado(), PDO::PARAM_STR);
 				$stmt->bindValue(':cep', $cliente->getCep(), PDO::PARAM_INT);
 				$stmt->bindValue(':email', $cliente->getEmail(), PDO::PARAM_STR);

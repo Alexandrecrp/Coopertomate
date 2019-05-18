@@ -1,7 +1,6 @@
 <?php
-require_once("InterfaceListaEditaLote.php");
 
-class ListaEditarLote implements InterfaceListaEditaLote{
+class Listalotevendido {
 
 		private $conn;
 
@@ -10,9 +9,11 @@ class ListaEditarLote implements InterfaceListaEditaLote{
 				$this->conn = $registry->get('Connection');
 		}
 
-		public function getAll($id) {
+		public function getAlllote($idlotevenda) {
 			try {
-				$listalote = $this->conn->query("SELECT * FROM lote WHERE id =".$id);
+				$listalote = $this->conn->query("select l.id, l.lote, l.cod_fazenda, l.cod_grupo, l.cod_cores, l.cod_calibre,
+					l.cod_categoria, l.qtdinicial, l.qtdvendida from lote l inner join lotevendido lvo on l.id = lvo.cod_lote
+					inner join lotevenda lva on lva.id = lvo.cod_venda where lva.id =".$idlotevenda);
 				return $this->listaLote($listalote);
 			} catch (PDOException $ex) {
 					echo "ERRO 03: {$ex->getMessage()}";

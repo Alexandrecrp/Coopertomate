@@ -1,7 +1,6 @@
 <?php
-require_once("InterfaceListaLotevenda.php");
 
-class ListaLotevenda implements InterfaceListaLotevenda{
+class ListaLotevenda {
 
 		private $conn;
 
@@ -22,9 +21,7 @@ class ListaLotevenda implements InterfaceListaLotevenda{
 								$lotevenda = new Lotevenda();
 								$lotevenda->setId($row->id);
 								$lotevenda->setVenda($row->venda);
-								$lotevenda->setCod_lote($row->cod_lote);
 								$lotevenda->setCod_cliente($row->cod_cliente);
-								$lotevenda->setQtdvendido($row->qtdvendido);
 								$lotevenda->setValornegociado($row->valornegociado);
 								$resultadolotevenda[] = $lotevenda;
 						}

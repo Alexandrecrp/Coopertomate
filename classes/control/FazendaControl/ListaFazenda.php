@@ -1,7 +1,5 @@
 <?php
-require_once("InterfaceListaFazenda.php");
-
-class ListaFazenda implements InterfaceListaFazenda{
+class ListaFazenda {
 
 		private $conn;
 
@@ -23,8 +21,18 @@ class ListaFazenda implements InterfaceListaFazenda{
 								$fazenda->setId($row->id);
 								$fazenda->setProdutor($row->produtor);
 								$fazenda->setFazenda($row->fazenda);
-								$fazenda->setCidade($row->cidade);
+								$fazenda->setIe($row->ie);
 								$fazenda->setCnpj($row->cnpj);
+								$fazenda->setCgc($row->cgc);
+								$fazenda->setEndereco($row->endereco);
+								$fazenda->setCidade($row->cidade);
+								$fazenda->setCcir($row->ccir);
+								$fazenda->setEstado($row->estado);
+								$fazenda->setCep($row->cep);
+								$fazenda->setEmail($row->email);
+								$fazenda->setTelefone($row->telefone);
+								$fazenda->setLatitude($row->latitude);
+								$fazenda->setLongitude($row->longitude);
 								$resultadofazendas[] = $fazenda;
 						}
 				}

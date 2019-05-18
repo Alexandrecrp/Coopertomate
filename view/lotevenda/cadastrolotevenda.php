@@ -6,8 +6,11 @@ require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/model/Cliente.php");
 require_once("../../classes/control/ClienteControl/ListaCliente.php");
 require_once("../../classes/model/Lotevenda.php");
-require_once("../../classes/control/LotevendaControl/ConsultaLotevenda.php");
 require_once("../../classes/control/LotevendaControl/CadastroLotevenda.php");
+require_once("../../classes/control/LotevendaControl/ListaLotevenda.php");
+require_once("../../classes/model/Lotevendido.php");
+require_once("../../classes/control/LotevendidoControl/RetornaIdlotevenda.php");
+require_once("../../classes/control/LotevendidoControl/CadastroLotevendido.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -36,6 +39,21 @@ if ($_SESSION['logado'] != 1) {
 			<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 			<link href="../../asset/css/themify-icons.css" rel="stylesheet">
 	    <link rel="shortcut icon" href="../../img/logo2.png" />
+			<script>
+				function duplicarCampos(){
+					var clone = document.getElementById('loteavendainicial').cloneNode(true);
+					var destino = document.getElementById('loteavendademais');
+					destino.appendChild (clone);
+					var camposClonados = clone.getElementsByTagName('+');
+					for(i=0; i<camposClonados.length;i++){
+						camposClonados[i].value = '';
+					}
+				}
+				function removerCampos(id){
+					var node1 = document.getElementById('loteavendademais');
+					node1.removeChild(node1.childNodes[0]);
+				}
+			</script>
     </head>
     <body>
 			<nav class="navbar navbar-inverse">
@@ -74,20 +92,9 @@ if ($_SESSION['logado'] != 1) {
 						</div>
 					</div>
 					<div class="form-row col-md-12">
-						<div class="form-group col-md-12">
-							<label for="inputState">Lote</label>
-							<select name="cod_lote" class="form-control" value="" required>
-								<option selected>Selecione um lote para venda...</option>
-								<?php
-									$listalote = new ListaLote;
-									$resultado = $listalote->getAll();
-									foreach($resultado as $lote) {
-								?>
-									<option value="<?=($lote->getId());?>"><?=($lote->getLote());?></option>
-								<?php
-							}
-							?>
-							</select>
+						<div class="form-group col-md-3">
+							<label for="inputZip">Valor da venda</label>
+							<input type="text" name="valornegociado" class="form-control" placeholder="48.1" pattern="([-0-9]+\.)[\d.]*" required>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
@@ -105,19 +112,38 @@ if ($_SESSION['logado'] != 1) {
 							}
 							?>
 							</select>
+							<h3 class="page-header"></h3>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<button class="btn btn-danger" onclick="duplicarCampos();">Acrescentar lote(+)</button>	<button class="btn btn-default" onclick="removerCampos(this);">Remover lote(-)</button>
+						</div>
+					</div>
+					<div id="loteavendainicial" class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputState">Lote</label>
+							<select name="cod_lote[]" class="form-control" value="" required>
+								<option selected>Selecione um lote para venda...</option>
+								<?php
+									$listalote = new ListaLote;
+									$resultado = $listalote->getAll();
+									foreach($resultado as $lote) {
+								?>
+									<option value="<?=($lote->getId());?>"><?=($lote->getLote());?></option>
+								<?php
+							}
+							?>
+							</select>
+							<h3 class="page-header"></h3>
+						</div>
 						<div class="form-group col-md-3">
 							<label for="inputZip">Quantidade do lote vendido</label>
-							<input type="text" name="qtdvendido" class="form-control" placeholder="200.10" pattern="([-0-9]+\.)[\d.]*" required>
+							<input type="text" name="qtdvendido[]" class="form-control" placeholder="200.10" pattern="([-0-9]+\.)[\d.]*" required>
+							<h3 class="page-header"></h3>
 						</div>
 					</div>
-					<div class="form-row col-md-12">
-						<div class="form-group col-md-3">
-							<label for="inputZip">Valor do lote negocioado</label>
-							<input type="text" name="valornegociado" class="form-control" placeholder="48.1" pattern="([-0-9]+\.)[\d.]*" required>
-						</div>
+					<div id="loteavendademais">
 					</div>
 					<div class="form-row col-md-12">
 						<div class="nav navbar-nav navbar-right">
@@ -144,26 +170,43 @@ if ($_SESSION['logado'] != 1) {
 </html>
 <?php
 if (isset($_POST['btnSubmit'])) {
-	//classe responsável por setar valores da entidade lote
-	$lotevenda = new Lotevenda();
-	$lotevenda->setIdusuariocadastro($_SESSION['id']);
-	$lotevenda->setVenda($_POST['venda']);
-	$lotevenda->setCod_lote($_POST['cod_lote']);
-	$lotevenda->setCod_cliente($_POST['cod_cliente']);
-	$lotevenda->setQtdvendido($_POST['qtdvendido']);
-	$lotevenda->setValornegociado($_POST['valornegociado']);
 	//classe responsável por consultar se lote existe ou não
-		$consultalotevenda = new ConsultaLotevenda();
-			if (!$consultalotevenda->consultarLotevenda($_POST['venda'])){
-					//classe responsável por cadastrar lote novo
-					$consultalotevenda = new CadastroLotevenda($lotevenda);
-					$consultalotevenda->cadastrarLotevenda();
-		} else {
-?>
-<script>
-	alert("Venda já cadastrada.");
-</script>
-<?php
+	$consultalotevenda = new ListaLotevenda();
+	$resultado = $consultalotevenda->getAll();
+	foreach($resultado as $consultalotevenda) {
+				if($consultalotevenda->getVenda()==(trim($_POST['venda']))) {
+						$temlotevenda = 1;
+					}
+				}
+				if($temlotevenda!=1){
+				//classe responsável por criar e setar lote venda
+				$lotevenda = new Lotevenda();
+				$lotevenda->setIdusuariocadastro($_SESSION['id']);
+				$lotevenda->setVenda(trim($_POST['venda']));
+				$lotevenda->setCod_cliente($_POST['cod_cliente']);
+				$lotevenda->setValornegociado($_POST['valornegociado']);
+				//classe responsável por cadastrar lote venda (ou seja, a venda)
+				$consultalotevenda = new CadastroLotevenda($lotevenda);
+				$consultalotevenda->cadastrarLotevenda();
+					foreach(array_combine($_POST["cod_lote"], $_POST["qtdvendido"]) as $lote => $qtdvendido) {
+						//classe responsável por consultar e retornar o id do lote venda (ou seja, da id venda)
+						$retornaidlotevenda = new RetornaIdlotevenda();
+						$variavelretornaidlotevenda = $retornaidlotevenda->RetornaIdlotevenda(trim($_POST['venda']));
+						//classe responsável por setar dados do lote vendido
+						$lotevendido = new Lotevendido();
+						$lotevendido->setCod_venda($variavelretornaidlotevenda);
+						$lotevendido->setCod_lote($lote);
+						$lotevendido->setQtdvendido($qtdvendido);
+						//classe responsável por cadastrar e referenciar a venda ao lote vendido
+							$cadastrarlotevendido = new CadastroLotevendido($lotevendido);
+							$cadastrarlotevendido->cadastrarLotevendido();
+				 }
+	} else {
+	?>
+		<script>
+			alert("Venda já cadastrada.");
+		</script>
+	<?php
 	}
 }
 		if (isset($_GET["acao"])) {

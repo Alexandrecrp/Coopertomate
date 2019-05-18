@@ -4,8 +4,8 @@ require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
 require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
 require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ConsultaFazenda.php");
 require_once("../../classes/control/FazendaControl/CadastroFazenda.php");
+require_once("../../classes/control/FazendaControl/ListaFazenda.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -217,8 +217,14 @@ if (isset($_POST['btnSubmit'])) {
 	$fazenda->setLatitude($_POST['latitude']);
 	$fazenda->setLongitude($_POST['longitude']);
 	//classe responsável por consultar se fazenda existe ou não
-		$consultafazenda = new ConsultaFazenda();
-			if (!$consultafazenda->consultarFazenda($_POST['cnpj'])){
+		$consultafazenda = new ListaFazenda();
+		$resultado = $consultafazenda->getAll();
+		foreach($resultado as $consultafazenda) {
+			if ($consultafazenda->getCnpj()==$_POST['cnpj']){
+				$temfazenda = 1;
+			}
+		}
+		if($temfazenda!=1){
 					//classe responsável por cadastrar fazenda novo
 					$cadastrafazenda = new CadastroFazenda($fazenda);
 					$cadastrafazenda->cadastrarFazenda();

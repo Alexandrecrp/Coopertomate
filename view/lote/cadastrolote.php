@@ -12,7 +12,7 @@ require_once("../../classes/control/CalibreControl/ListaCalibre.php");
 require_once("../../classes/model/Categoria.php");
 require_once("../../classes/control/CategoriaControl/ListaCategoria.php");
 require_once("../../classes/model/Lote.php");
-require_once("../../classes/control/LoteControl/ConsultaLote.php");
+require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/control/LoteControl/CadastroLote.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
@@ -197,7 +197,7 @@ if (isset($_POST['btnSubmit'])) {
 	//classe responsável por setar valores da entidade lote
 	$lote = new Lote();
 	$lote->setIdusuariocadastro($_SESSION['id']);
-	$lote->setLote($_POST['lote']);
+	$lote->setLote(trim($_POST['lote']));
 	$lote->setCod_fazenda($_POST['cod_fazenda']);
 	$lote->setCod_grupo($_POST['cod_grupo']);
 	$lote->setCod_cores($_POST['cod_cores']);
@@ -206,8 +206,14 @@ if (isset($_POST['btnSubmit'])) {
 	$lote->setQtdinicial($_POST['qtdinicial']);
 	$lote->setQtdvendida($_POST['qtdvendida']);
 	//classe responsável por consultar se lote existe ou não
-		$consultalote = new ConsultaLote();
-			if (!$consultalote->consultarLote($_POST['lote'])){
+		$consultalote = new ListaLote();
+		$resultado = $consultalote->getAll();
+		foreach($resultado as $consultalote) {
+			if ($consultalote->getLote()==(trim($_POST['lote']))) {
+				$temlote = 1;
+			}
+		}
+		if($temlote!=1){
 					//classe responsável por cadastrar lote novo
 					$consultalote = new CadastroLote($lote);
 					$consultalote->cadastrarLote();

@@ -2,12 +2,10 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ListaEditaProdutor.php");
-require_once("../../classes/control/ProdutorControl/ListaProdutorExcetoSelecionado.php");
+require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
 require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ListaEditafazenda.php");
 require_once("../../classes/control/FazendaControl/Atualizafazenda.php");
-require_once("../../classes/control/FazendaControl/ListaFazendaExcetoSelecionada.php");
+require_once("../../classes/control/FazendaControl/ListaFazenda.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -68,9 +66,10 @@ if ($_SESSION['logado'] != 1) {
 				<h3 class="page-header">Atualizar Fazenda</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
-					$listafazenda = new ListaEditarFazenda;
-					$resultado = $listafazenda->getAll($_GET['idfazenda']);
+					$listafazenda = new ListaFazenda;
+					$resultado = $listafazenda->getAll();
 					foreach($resultado as $fazenda) {
+						if($fazenda->getId()==$_GET['idfazenda']){
 						?>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
@@ -84,19 +83,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="produtor" class="form-control" value="" required>
 								<option>Selecione um produtor...</option>
 								<?php
-									$listaprodutor = new ListaEditarProdutor;
-									$resultado = $listaprodutor->getAll($fazenda->getProdutor());
+									$listaprodutor = new ListaProdutor;
+									$resultado = $listaprodutor->getAll();
 									foreach($resultado as $produtorselecionado) {
+										if($produtorselecionado->getId()==$fazenda->getProdutor()) {
 								?>
 									<option value="<?=$produtorselecionado->getId();?>" selected><?=$produtorselecionado->getNome();?></option>
 								<?php
-								}
-									$listaprodutorexcetoselecionado = new ListaProdutorExcetoSelecionado;
-									$resultadoexcetoselecionado = $listaprodutorexcetoselecionado->getAllExceto($produtorselecionado->getId());
+										}
+									}
+									$listaprodutorexcetoselecionado = new ListaProdutor;
+									$resultadoexcetoselecionado = $listaprodutorexcetoselecionado->getAll();
 									foreach($resultadoexcetoselecionado as $produtorexcetoselecionado) {
+										if($produtorexcetoselecionado->getId()!=$fazenda->getProdutor()) {
 								?>
 									<option value="<?=$produtorexcetoselecionado->getId();?>"><?=$produtorexcetoselecionado->getNome();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -201,7 +204,7 @@ if ($_SESSION['logado'] != 1) {
 						</div>
 						<h3 class="page-header"></h3>
 					</div>
-				<?php }?>
+				<?php }}?>
 			</form>
 		</div>
 		<footer class="footer">
@@ -238,14 +241,16 @@ if (isset($_POST['btnSubmit2'])) {
 	$fazenda->setLatitude($_POST['latitude']);
 	$fazenda->setLongitude($_POST['longitude']);
 	//classe responsável por atualizar fazenda
-		$consultafazenda = new ListaFazendaExcetoSelecionada;
-		$resultadoexcetoselecionado = $consultafazenda->getAllExceto(trim($_POST['idfazenda']));
+		$consultafazenda = new ListaFazenda;
+		$resultadoexcetoselecionado = $consultafazenda->getAll();
 		foreach($resultadoexcetoselecionado as $fazendaexcetoselecionada) {
+			if($fazendaexcetoselecionada->getId()!=$_POST['idfazenda']){
 			if(($fazendaexcetoselecionada->getCnpj())==($fazenda->getCnpj())){
-				$outrolotecommesmocodigo = 1;
+				$outrafazendacommesmocodigo = 1;
+				}
 			}
 		}
-		if($outrolotecommesmocodigo==1){
+		if($outrafazendacommesmocodigo==1){
 			?>
 			<script>
 				alert("O sistema já possui uma fazenda cadastrada com esse CNPJ!");

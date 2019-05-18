@@ -1,7 +1,6 @@
 <?php
-require_once("InterfaceListaCores.php");
 
-class ListaCores implements InterfaceListaCores{
+class ListaCores {
 
 		private $conn;
 

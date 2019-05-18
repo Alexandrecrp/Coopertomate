@@ -2,12 +2,11 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Lotevenda.php");
-require_once("../../classes/control/LotevendaControl/ListaEditaLotevenda.php");
 require_once("../../classes/control/LotevendaControl/ListaLotevenda.php");
 require_once("../../classes/model/Lote.php");
-require_once("../../classes/control/LoteControl/ListaEditaLote.php");
+require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/model/Cliente.php");
-require_once("../../classes/control/ClienteControl/ListaEditaCliente.php");
+require_once("../../classes/control/ClienteControl/ListaCliente.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -74,7 +73,6 @@ if ($_SESSION['logado'] != 1) {
 						<tr>
 						  <th scope="col">Código</th>
 							<th scope="col"><center>Venda</center></th>
-						  <th scope="col"><center>Lote</center></th>
 							<th scope="col"><center>Cliente</center></th>
 							<th scope="col"><center>Ação</center></th>
 						</tr>
@@ -97,25 +95,15 @@ if ($_SESSION['logado'] != 1) {
 								</center>
 							</td>
 								<?php
-									$listalote = new ListaEditarLote;
-									$resultado = $listalote->getAll($lotevenda->getCod_lote());
-									foreach($resultado as $lote) {
-								?>
-								<td width="200" scope="row">
-									<center>
-										<?php echo $lote->getLote();
-									}
-									?>
-									</center>
-								</td>
-								<?php
-									$listacliente = new ListaEditaCliente;
-									$resultado = $listacliente->getAll($lotevenda->getCod_cliente());
+									$listacliente = new ListaCliente;
+									$resultado = $listacliente->getAll();
 									foreach($resultado as $cliente) {
+										if($cliente->getId()==$lotevenda->getCod_cliente()) {
 								?>
 								<td width="200" scope="row">
 									<center>
 										<?php echo $cliente->getCliente();
+										}
 									}
 									?>
 									</center>

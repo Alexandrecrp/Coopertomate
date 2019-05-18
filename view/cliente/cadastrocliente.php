@@ -2,8 +2,8 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Cliente.php");
-require_once("../../classes/control/ClienteControl/ConsultaCliente.php");
 require_once("../../classes/control/ClienteControl/CadastroCliente.php");
+require_once("../../classes/control/ClienteControl/ListaCliente.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -202,15 +202,22 @@ if (isset($_POST['btnSubmit'])) {
 	$cliente->setLatitude($_POST['latitude']);
 	$cliente->setLongitude($_POST['longitude']);
 	//classe responsável por consultar se cliente existe ou não
-		$consultacliente = new ConsultaCliente();
-			if (!$consultacliente->consultarCliente($_POST['cnpj'])){
+	$temcliente='';
+		$consultacliente = new ListaCliente();
+		$resultado = $consultacliente->getAll();
+		foreach($resultado as $consultacliente) {
+			if ($consultacliente->getCnpj()==$_POST['cnpj']){
+				$temcliente = 1;
+			}
+		}
+		if($temcliente!=1){
 					//classe responsável por cadastrar cliente novo
 					$cadastracliente = new CadastroCliente($cliente);
 					$cadastracliente->cadastrarCliente();
 		} else {
 ?>
 <script>
-	alert("Cliente já cadastrada.");
+	alert("Cliente já cadastrado.");
 </script>
 <?php
 	}

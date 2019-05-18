@@ -10,6 +10,9 @@ require_once("../../classes/control/LoteControl/ListaLoteExcetoSelecionado.php")
 require_once("../../classes/model/Cliente.php");
 require_once("../../classes/control/ClienteControl/ListaEditaCliente.php");
 require_once("../../classes/control/ClienteControl/ListaClienteExcetoSelecionado.php");
+require_once("../../classes/model/Lotevendido.php");
+require_once("../../classes/control/LotevendidoControl/ListaLotevendido.php");
+require_once("../../classes/control/LotevendidoControl/RetornaQtdlotevendido.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -67,7 +70,7 @@ if ($_SESSION['logado'] != 1) {
 			  </div>
 			</nav>
       <div class="container">
-				<h3 class="page-header">Atualizar Venda de Lote</h3>
+				<h3 class="page-header">Venda de Lote</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
 					$listalotevenda = new ListaEditarLotevenda;
@@ -83,38 +86,20 @@ if ($_SESSION['logado'] != 1) {
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
 							<label for="inputEmail4">Venda</label>
-							<input type="text" name="venda" class="form-control" value="<?php echo $lotevenda->getVenda();?>" required>
+							<input type="text" name="venda" class="form-control" value="<?php echo $lotevenda->getVenda();?>" required readonly>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
-						<div class="form-group col-md-12">
-							<label for="inputState">Lote</label>
-							<select name="cod_lote" class="form-control" value="" required>
-								<option>Selecione um lote...</option>
-								<?php
-									$listalote = new ListaEditarLote;
-									$resultado = $listalote->getAll($lotevenda->getCod_lote());
-									foreach($resultado as $loteselecionados) {
-								?>
-									<option value="<?=$loteselecionados->getId();?>" selected><?=$loteselecionados->getLote();?></option>
-								<?php
-								}
-									$listaloteexcetoselecionado = new ListaLoteExcetoSelecionado;
-									$resultadoexcetoselecionado = $listaloteexcetoselecionado->getAllExceto($loteselecionados->getId());
-									foreach($resultadoexcetoselecionado as $loteexcetoselecionado) {
-								?>
-									<option value="<?=$loteexcetoselecionado->getId();?>"><?=$loteexcetoselecionado->getLote();?></option>
-								<?php
-								}
-								?>
-							</select>
+						<div class="form-group col-md-3">
+							<label for="inputZip">Valor Negociado</label>
+							<input type="text" name="valornegociado" class="form-control" placeholder="48.1938" value="<?php echo $lotevenda->getValornegociado();?>" pattern="([-0-9]+\.)[\d.]*" required readonly>
 						</div>
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-12">
 							<label for="inputState">Cliente</label>
-							<select name="cod_cliente" class="form-control" value="" required>
-								<option>Selecione um cliente...</option>
+							<select name="cod_cliente" class="form-control" value="" required readonly>
+								<!--<option>Selecione um cliente...</option>-->
 								<?php
 									$listacliente = new ListaEditaCliente;
 									$resultado = $listacliente->getAll($lotevenda->getCod_cliente());
@@ -123,32 +108,41 @@ if ($_SESSION['logado'] != 1) {
 									<option value="<?=$clienteselecionado->getId();?>" selected><?=$clienteselecionado->getCliente();?></option>
 								<?php
 								}
-									$listaclienteexcetoselecionado = new ListaClienteExcetoSelecionado;
-									$resultadoexcetoselecionado = $listaclienteexcetoselecionado->getAllExceto($clienteselecionado->getId());
-									foreach($resultadoexcetoselecionado as $clienteexcetoselecionado) {
-								?>
-									<option value="<?=$clienteexcetoselecionado->getId();?>"><?=$clienteexcetoselecionado->getCliente();?></option>
-								<?php
-								}
 								?>
 							</select>
+							<h3 class="page-header"></h3>
 						</div>
 					</div>
+					<?php
+						$listalotevendido = new Listalotevendido;
+						$resultado = $listalotevendido->getAlllote($lotevenda->getId());
+						foreach($resultado as $lotevendidoselecionados) {
+					?>
 					<div class="form-row col-md-12">
+						<div class="form-group col-md-6">
+							<label for="inputState">Lote</label>
+							<select name="cod_lote" class="form-control" value="" required readonly>
+								<!--<option>Selecione um lote...</option>-->
+									<option value="<?=$lotevendidoselecionados->getId();?>" selected><?=$lotevendidoselecionados->getLote();?></option>
+							</select>
+						</div>
+						<?php
+						$qtdlotevendido = new RetornaQtdlotevendido;
+						$resultadoqtdvendida = $qtdlotevendido->getQtdlotevendido($lotevenda->getId(), $lotevendidoselecionados->getId());
+						foreach($resultadoqtdvendida as $qtdvendida) {
+						?>
 						<div class="form-group col-md-3">
 							<label for="inputZip">Quantidade Vendido</label>
-							<input type="text" name="qtdvendido" class="form-control" placeholder="48.1938" value="<?php echo $lotevenda->getQtdvendido();?>" pattern="([-0-9]+\.)[\d.]*" required>
+							<input type="text" name="qtdvendido" class="form-control" placeholder="48.1938" value="<?php echo number_format($qtdvendida->getQtdvendido(), 2);?>" pattern="([-0-9]+\.)[\d.]*" required readonly>
 						</div>
 					</div>
-					<div class="form-row col-md-12">
-						<div class="form-group col-md-3">
-							<label for="inputZip">Valor Negociado</label>
-							<input type="text" name="valornegociado" class="form-control" placeholder="48.1938" value="<?php echo $lotevenda->getValornegociado();?>" pattern="([-0-9]+\.)[\d.]*" required>
-						</div>
-					</div>
+					<?php
+						}
+					}
+					?>
 					<div class="form-row col-md-12">
 						<div class="nav navbar-nav navbar-right">
-							<input type="submit" name="btnSubmit" value="Atualizar" class="btn btn-danger"/> <td><a href="listalotevenda.php"  class="btn btn-default">Voltar</a></td>
+							<input type="submit" name="btnSubmit" value="Excluir venda" class="btn btn-danger"/> <td><a href="listalotevenda.php"  class="btn btn-default">Voltar</a></td>
 						</div>
 					</br>
 						<h3 class="page-header"></h3>
@@ -171,19 +165,6 @@ if ($_SESSION['logado'] != 1) {
     </body>
 </html>
 <?php
-if (isset($_POST['btnSubmit'])) {
-	//classe responsável por setar valores da entidade lotevenda
-	$lotevenda = new Lotevenda();
-	$lotevenda->setId($_POST['idlotevenda']);
-	$lotevenda->setVenda($_POST['venda']);
-	$lotevenda->setCod_lote($_POST['cod_lote']);
-	$lotevenda->setCod_cliente($_POST['cod_cliente']);
-	$lotevenda->setQtdvendido($_POST['qtdvendido']);
-	$lotevenda->setValornegociado($_POST['valornegociado']);
-		//classe responsável por cadastrar lote venda novo
-		$atualizarlotevenda = new atualizaLotevenda($lotevenda);
-		$atualizarlotevenda->atualizarLotevenda();
-}
 		if (isset($_GET["acao"])) {
 
 	    if ($_GET["acao"] == "sair") {

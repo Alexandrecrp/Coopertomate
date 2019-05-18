@@ -2,9 +2,8 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ListaEditaProdutor.php");
 require_once("../../classes/control/ProdutorControl/AtualizaProdutor.php");
-require_once("../../classes/control/ProdutorControl/ListaProdutorExcetoSelecionado.php");
+require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -65,9 +64,10 @@ if ($_SESSION['logado'] != 1) {
 				<h3 class="page-header">Atualizar Produtor</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
-					$listaprodutor = new ListaEditarProdutor;
-					$resultado = $listaprodutor->getAll($_GET['idprodutor']);
+					$listaprodutor = new ListaProdutor;
+					$resultado = $listaprodutor->getAll();
 					foreach($resultado as $produtor) {
+						if($produtor->getId()==$_GET['idprodutor']){
 						?>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
@@ -164,7 +164,7 @@ if ($_SESSION['logado'] != 1) {
 						</div>
 						<h3 class="page-header"></h3>
 					</div>
-				<?php }?>
+				<?php }}?>
 			</form>
 		</div>
 		<footer class="footer">
@@ -198,14 +198,16 @@ if (isset($_POST['btnSubmit2'])) {
 	$produtor->setEmail($_POST['email']);
 	$produtor->setTelefone($_POST['telefone']);
 	//classe responsável por atualizar produtor
-	$consultaprodutor = new ListaProdutorExcetoSelecionado;
-	$resultadoexcetoselecionado = $consultaprodutor->getAllExceto(trim($_POST['idprodutor']));
+	$consultaprodutor = new ListaProdutor;
+	$resultadoexcetoselecionado = $consultaprodutor->getAll();
 	foreach($resultadoexcetoselecionado as $produtorexcetoselecionado) {
-		if(($produtorexcetoselecionado->getCpf())==($produtor->getCpf())){
-			$outrolotecommesmocodigo = 1;
+		if($produtorexcetoselecionado->getId()!=$_POST['idprodutor']){
+			if(($produtorexcetoselecionado->getCpf())==($produtor->getCpf())) {
+				$outroprodutorcommesmocodigo = 1;
+			}
 		}
 	}
-	if($outrolotecommesmocodigo==1){
+	if($outroprodutorcommesmocodigo==1){
 		?>
 		<script>
 			alert("O sistema já possui um produtor cadastrado com esse CPF!");

@@ -2,24 +2,18 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ListaEditaFazenda.php");
-require_once("../../classes/control/FazendaControl/ListaFazendaExcetoSelecionada.php");
+require_once("../../classes/control/FazendaControl/ListaFazenda.php");
 require_once("../../classes/model/Grupo.php");
-require_once("../../classes/control/GrupoControl/ListaEditaGrupo.php");
-require_once("../../classes/control/GrupoControl/ListaGrupoExcetoSelecionado.php");
+require_once("../../classes/control/GrupoControl/ListaGrupo.php");
 require_once("../../classes/model/Cores.php");
-require_once("../../classes/control/CoresControl/ListaEditaCores.php");
-require_once("../../classes/control/CoresControl/ListaCoresExcetoSelecionada.php");
+require_once("../../classes/control/CoresControl/ListaCores.php");
 require_once("../../classes/model/Calibre.php");
-require_once("../../classes/control/CalibreControl/ListaEditaCalibre.php");
-require_once("../../classes/control/CalibreControl/ListaCalibreExcetoSelecionado.php");
+require_once("../../classes/control/CalibreControl/ListaCalibre.php");
 require_once("../../classes/model/Categoria.php");
-require_once("../../classes/control/CategoriaControl/ListaEditaCategoria.php");
-require_once("../../classes/control/CategoriaControl/ListaCategoriaExcetoSelecionada.php");
+require_once("../../classes/control/CategoriaControl/ListaCategoria.php");
 require_once("../../classes/model/Lote.php");
-require_once("../../classes/control/LoteControl/ListaEditaLote.php");
+require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/control/LoteControl/AtualizaLote.php");
-require_once("../../classes/control/LoteControl/ListaLoteExcetoSelecionado.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -80,9 +74,10 @@ if ($_SESSION['logado'] != 1) {
 				<h3 class="page-header">Atualizar Lote</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
-					$listalote = new ListaEditarLote;
-					$resultado = $listalote->getAll($_GET['idlote']);
+					$listalote = new ListaLote;
+					$resultado = $listalote->getAll();
 					foreach($resultado as $lote) {
+						if($lote->getId()==$_GET['idlote']) {
 						?>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
@@ -102,19 +97,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="cod_fazenda" class="form-control" value="" required>
 								<option>Selecione uma fazenda...</option>
 								<?php
-									$listafazenda = new ListaEditarFazenda;
-									$resultado = $listafazenda->getAll($lote->getCod_fazenda());
+									$listafazenda = new ListaFazenda;
+									$resultado = $listafazenda->getAll();
 									foreach($resultado as $fazendaselecionada) {
+										if($fazendaselecionada->getId()==$lote->getCod_fazenda()) {
 								?>
 									<option value="<?=$fazendaselecionada->getId();?>" selected><?=$fazendaselecionada->getFazenda();?></option>
 								<?php
+									}
 								}
-									$listafazendaexcetoselecionado = new ListaFazendaExcetoSelecionada;
-									$resultadoexcetoselecionado = $listafazendaexcetoselecionado->getAllExceto($fazendaselecionada->getId());
-									foreach($resultadoexcetoselecionado as $fazendaexcetoselecionada) {
+								$listafazenda = new ListaFazenda;
+								$resultado = $listafazenda->getAll();
+								foreach($resultado as $fazendaexcetoselecionada) {
+									if($fazendaexcetoselecionada->getId()!=$lote->getCod_fazenda()) {
 								?>
 									<option value="<?=$fazendaexcetoselecionada->getId();?>"><?=$fazendaexcetoselecionada->getFazenda();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -126,19 +125,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="cod_grupo" class="form-control" value="" required>
 								<option>Selecione uma grupo...</option>
 								<?php
-									$listagrupo = new ListaEditaGrupo;
-									$resultado = $listagrupo->getAll($lote->getCod_grupo());
+									$listagrupo = new ListaGrupo;
+									$resultado = $listagrupo->getAll();
 									foreach($resultado as $gruposelecionado) {
+										if($gruposelecionado->getId()==$lote->getCod_grupo()) {
 								?>
 									<option value="<?=$gruposelecionado->getId();?>" selected><?=$gruposelecionado->getGrupo();?></option>
 								<?php
+									}
 								}
-									$listagrupoexcetoselecionado = new ListaGrupoExcetoSelecionado;
-									$resultadoexcetogruposelecionado = $listagrupoexcetoselecionado->getAllExceto($gruposelecionado->getId());
+									$listagrupoexcetoselecionado = new ListaGrupo;
+									$resultadoexcetogruposelecionado = $listagrupoexcetoselecionado->getAll($gruposelecionado->getId());
 									foreach($resultadoexcetogruposelecionado as $grupoexcetoselecionado) {
+										if($grupoexcetoselecionado->getId()!=$lote->getCod_grupo()){
 								?>
 									<option value="<?=$grupoexcetoselecionado->getId();?>"><?=$grupoexcetoselecionado->getGrupo();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -148,19 +151,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="cod_cores" class="form-control" value="" required>
 								<option>Selecione uma cor...</option>
 								<?php
-									$listacores = new ListaEditaCores;
-									$resultado = $listacores->getAll($lote->getCod_cores());
+									$listacores = new ListaCores;
+									$resultado = $listacores->getAll();
 									foreach($resultado as $coresselecionada) {
+										if($coresselecionada->getId()==$lote->getCod_cores()) {
 								?>
 									<option value="<?=$coresselecionada->getId();?>" selected><?=$coresselecionada->getCores();?></option>
 								<?php
+									}
 								}
-									$listacoresexcetoselecionada = new ListaCoresExcetoSelecionada;
-									$resultadocoresexcetoselecionada = $listacoresexcetoselecionada->getAllExceto($coresselecionada->getId());
+									$listacoresexcetoselecionada = new ListaCores;
+									$resultadocoresexcetoselecionada = $listacoresexcetoselecionada->getAll();
 									foreach($resultadocoresexcetoselecionada as $coresexcetoselecionada) {
+										if($coresexcetoselecionada->getId()!=$lote->getCod_cores()) {
 								?>
 									<option value="<?=$coresexcetoselecionada->getId();?>"><?=$coresexcetoselecionada->getCores();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -170,19 +177,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="cod_calibre" class="form-control" value="" required>
 								<option>Selecione um calibre...</option>
 								<?php
-									$listacalibre = new ListaEditaCalibre;
-									$resultado = $listacalibre->getAll($lote->getCod_calibre());
+									$listacalibre = new ListaCalibre;
+									$resultado = $listacalibre->getAll();
 									foreach($resultado as $calibreselecionado) {
+										if($calibreselecionado->getId()==$lote->getCod_calibre()) {
 								?>
 									<option value="<?=$calibreselecionado->getId();?>" selected><?=$calibreselecionado->getCalibre();?></option>
 								<?php
+									}
 								}
-									$listacalibreexcetoselecionado = new ListaCalibreExcetoSelecionado;
-									$resultadocalibreexcetoselecionado = $listacalibreexcetoselecionado->getAllExceto($calibreselecionado->getId());
+									$listacalibreexcetoselecionado = new ListaCalibre;
+									$resultadocalibreexcetoselecionado = $listacalibreexcetoselecionado->getAll();
 									foreach($resultadocalibreexcetoselecionado as $calibreexcetoselecionado) {
+										if($calibreexcetoselecionado->getId()!=$lote->getCod_calibre()) {
 								?>
 									<option value="<?=$calibreexcetoselecionado->getId();?>"><?=$calibreexcetoselecionado->getCalibre();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -192,19 +203,23 @@ if ($_SESSION['logado'] != 1) {
 							<select name="cod_categoria" class="form-control" value="" required>
 								<option>Selecione uma categoria...</option>
 								<?php
-									$listacategoria = new ListaEditaCategoria;
+									$listacategoria = new ListaCategoria;
 									$resultado = $listacategoria->getAll($lote->getCod_categoria());
 									foreach($resultado as $categoriaselecionada) {
+										if($categoriaselecionada->getId()==$lote->getCod_categoria()) {
 								?>
 									<option value="<?=$categoriaselecionada->getId();?>" selected><?=$categoriaselecionada->getCategoria();?></option>
 								<?php
+									}
 								}
-									$listacategoriaexcetoselecionada = new ListaCategoriaExcetoSelecionada;
-									$resultadocategoriaexcetoselecionada = $listacategoriaexcetoselecionada->getAllExceto($categoriaselecionada->getId());
+									$listacategoriaexcetoselecionada = new ListaCategoria;
+									$resultadocategoriaexcetoselecionada = $listacategoriaexcetoselecionada->getAll();
 									foreach($resultadocategoriaexcetoselecionada as $categoriaexcetoselecionada) {
+										if($categoriaexcetoselecionada->getId()!=$lote->getCod_categoria()) {
 								?>
 									<option value="<?=$categoriaexcetoselecionada->getId();?>"><?=$categoriaexcetoselecionada->getCategoria();?></option>
 								<?php
+									}
 								}
 								?>
 							</select>
@@ -229,7 +244,7 @@ if ($_SESSION['logado'] != 1) {
 					</br>
 						<h3 class="page-header"></h3>
 					</div>
-				<?php }?>
+				<?php }}?>
 			</form>
 		</div>
 		<footer class="footer">
@@ -260,13 +275,15 @@ if (isset($_POST['btnSubmit2'])) {
 	$lote->setQtdinicial(trim($_POST['qtdinicial']));
 	$lote->setQtdvendida(trim($_POST['qtdvendida']));
 	//classe responsável por atualizar lote
-		$consultalote = new ListaLoteExcetoSelecionado;
-		$resultadoexcetoselecionado = $consultalote->getAllExceto($_POST['idlote']);
+		$consultalote = new ListaLote;
+		$resultadoexcetoselecionado = $consultalote->getAll();
 		foreach($resultadoexcetoselecionado as $loteexcetoselecionado) {
+			if($loteexcetoselecionado->getId()!=(trim($_POST['idlote']))) {
 			if($loteexcetoselecionado->getLote()==$lote->getLote()){
 				$outrolotecommesmocodigo = 1;
 			}
 		}
+	}
 		if($outrolotecommesmocodigo==1){
 			?>
 			<script>

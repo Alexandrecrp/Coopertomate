@@ -16,21 +16,19 @@ class CadastroLotevenda {
 				try {
 				  $lotevenda = $this->lotevenda;
 					$stmt = $this->conn->prepare(
-																'INSERT INTO lotevenda (idusuariocadastro, venda, cod_lote, cod_cliente, qtdvendido, valornegociado)
+																'INSERT INTO lotevenda (idusuariocadastro, venda, cod_cliente, valornegociado)
 																	VALUES
-																	(:idusuariocadastro, :venda, :cod_lote, :cod_cliente, :qtdvendido, :valornegociado)');
+																	(:idusuariocadastro, :venda, :cod_cliente, :valornegociado)');
 																	$stmt->bindValue(":idusuariocadastro", $lotevenda->getIdusuariocadastro(), PDO::PARAM_INT);
 																	$stmt->bindValue(":venda", $lotevenda->getVenda(), PDO::PARAM_STR);
-																	$stmt->bindValue(":cod_lote", $lotevenda->getCod_lote(), PDO::PARAM_INT);
 																	$stmt->bindValue(":cod_cliente", $lotevenda->getCod_cliente(), PDO::PARAM_INT);
-																	$stmt->bindValue(":qtdvendido", $lotevenda->getQtdvendido());
 																	$stmt->bindValue(":valornegociado", $lotevenda->getValornegociado());
 																	$stmt->execute();
 																	$this->conn->commit();
 																	?>
 																	<script>
 																		alert("Cadastro de venda realizado com sucesso.");
-																		window.location.replace("listalotevenda.php")	;
+																		//window.location.replace("listalotevenda.php")	;
 																	</script>
 																	<?php
 																}

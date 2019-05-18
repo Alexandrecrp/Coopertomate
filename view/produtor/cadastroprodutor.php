@@ -2,7 +2,7 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Produtor.php");
-require_once("../../classes/control/ProdutorControl/ConsultaProdutor.php");
+require_once("../../classes/control/ProdutorControl/ListaProdutor.php");
 require_once("../../classes/control/ProdutorControl/CadastroProdutor.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
@@ -185,11 +185,17 @@ if (isset($_POST['btnSubmit'])) {
 	$produtor->setEmail($_POST['email']);
 	$produtor->setTelefone($_POST['telefone']);
 	//classe responsável por consultar se produtor existe ou não
-		$consultaprodutor = new ConsultaProdutor();
-			if (!$consultaprodutor->consultarProdutor($_POST['cpf'])){
-					//classe responsável por cadastrar produtor novo
-					$cadastraprodutor = new CadastroProdutor($produtor);
-					$cadastraprodutor->cadastrarProdutor();
+		$consultaprodutor = new ListaProdutor();
+		$resultado = $consultaprodutor->getAll();
+		foreach($resultado as $consultaprodutor) {
+			if ($consultaprodutor->getCpf()==$_POST['cpf']){
+				$temprodutor = 1;
+			}
+		}
+		if($temprodutor!=1){
+			//classe responsável por cadastrar produtor novo
+			$cadastraprodutor = new CadastroProdutor($produtor);
+			$cadastraprodutor->cadastrarProdutor();
 		} else {
 ?>
 <script>

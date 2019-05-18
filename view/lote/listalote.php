@@ -2,7 +2,7 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Fazenda.php");
-require_once("../../classes/control/FazendaControl/ListaEditaFazenda.php");
+require_once("../../classes/control/FazendaControl/ListaFazenda.php");
 require_once("../../classes/model/Lote.php");
 require_once("../../classes/control/LoteControl/ListaLote.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
@@ -92,10 +92,12 @@ if ($_SESSION['logado'] != 1) {
 							</td>
 							<td width="200">
 								<?php
-									$listafazenda = new ListaEditarFazenda;
-									$resultado = $listafazenda->getAll($lote->getCod_fazenda());
+									$listafazenda = new ListaFazenda;
+									$resultado = $listafazenda->getAll();
 									foreach($resultado as $fazendaselecionada) {
+										if($fazendaselecionada->getId()==$lote->getCod_fazenda()){
 										echo	$fazendaselecionada->getFazenda();
+										}
 									}
 								?>
 							</td>

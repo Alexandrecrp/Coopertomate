@@ -2,9 +2,8 @@
 session_start();
 require_once("../../classes/control/ConexaoControl/RegistroConexao.php");
 require_once("../../classes/model/Cliente.php");
-require_once("../../classes/control/ClienteControl/ListaEditaCliente.php");
 require_once("../../classes/control/ClienteControl/AtualizaCliente.php");
-require_once("../../classes/control/ClienteControl/ListaClienteExcetoSelecionado.php");
+require_once("../../classes/control/ClienteControl/ListaCliente.php");
 require_once("../../classes/control/ConexaoControl/Conexao.php");
 $registrodeconexao = RegistroConexao::getInstancia();
 $registrodeconexao->set('Connection', $conn);
@@ -65,9 +64,10 @@ if ($_SESSION['logado'] != 1) {
 				<h3 class="page-header">Atualizar Cliente</h3>
 			<form method="post" class="form-signin-fluid" name="frmLogin">
 				<?php
-					$listacliente = new ListaEditaCliente;
-					$resultado = $listacliente->getAll($_GET['idcliente']);
+					$listacliente = new ListaCliente;
+					$resultado = $listacliente->getAll();
 					foreach($resultado as $cliente) {
+						if($cliente->getId()==$_GET['idcliente']){
 						?>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-2">
@@ -178,7 +178,7 @@ if ($_SESSION['logado'] != 1) {
 						</div>
 						<h3 class="page-header"></h3>
 					</div>
-				<?php }?>
+				<?php }}?>
 			</form>
 		</div>
 		<footer class="footer">
@@ -215,14 +215,16 @@ if (isset($_POST['btnSubmit2'])) {
 	$cliente->setLatitude($_POST['latitude']);
 	$cliente->setLongitude($_POST['longitude']);
 	//classe responsável por atualizar cliente
-		$consultacliente = new ListaClienteExcetoSelecionado;
-		$resultadoexcetoselecionado = $consultacliente->getAllExceto(trim($_POST['idcliente']));
-		foreach($resultadoexcetoselecionado as $clienteexcetoselecionada) {
-			if(($clienteexcetoselecionada->getCnpj())==($cliente->getCnpj())){
-				$outrolotecommesmocodigo = 1;
+		$consultacliente = new ListaCliente;
+		$resultadoexcetoselecionado = $consultacliente->getAll();
+		foreach($resultadoexcetoselecionado as $clienteexcetoselecionado) {
+			if($clienteexcetoselecionado->getId()!=$_POST['idcliente']){
+			if(($clienteexcetoselecionado->getCnpj())==($cliente->getCnpj())){
+				$outroclientecommesmocodigo = 1;
 			}
 		}
-		if($outrolotecommesmocodigo==1){
+	}
+		if($outroclientecommesmocodigo==1){
 			?>
 			<script>
 				alert("O sistema já possui um cliente cadastrado com esse CNPJ!");

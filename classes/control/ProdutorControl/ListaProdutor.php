@@ -1,7 +1,5 @@
 <?php
-require_once("InterfaceListaProdutor.php");
-
-class ListaProdutor implements InterfaceListaProdutor{
+class ListaProdutor {
 
 		private $conn;
 
@@ -23,8 +21,15 @@ class ListaProdutor implements InterfaceListaProdutor{
 								$produtor->setId($row->id);
 								$produtor->setNome($row->nome);
 								$produtor->setCpf($row->cpf);
+								$produtor->setEndereco($row->endereco);
+								$produtor->setNumero($row->numero);
+								$produtor->setBairro($row->bairro);
+								$produtor->setComplemento($row->complemento);
 								$produtor->setCidade($row->cidade);
+								$produtor->setEstado($row->estado);
+								$produtor->setCep($row->cep);
 								$produtor->setEmail($row->email);
+								$produtor->setTelefone($row->telefone);
 								$resultadoprodutores[] = $produtor;
 						}
 				}
