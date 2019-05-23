@@ -20,7 +20,7 @@ if ($_SESSION['logado'] != 1) {
     <head>
 	    <meta charset="UTF-8">
 	    <title>.::CooperTomate::.</title>
-	    <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
+	    <link rel="stylesheet" type="text/css" href="../../css/style.css" media="all" />
 			<!-- Bootstrap core CSS -->
 			<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 			<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
