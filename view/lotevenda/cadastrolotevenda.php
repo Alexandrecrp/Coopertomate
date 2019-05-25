@@ -117,7 +117,7 @@ if ($_SESSION['logado'] != 1) {
 					</div>
 					<div class="form-row col-md-12">
 						<div class="form-group col-md-6">
-							<button class="btn btn-danger" onclick="duplicarCampos();">Acrescentar lote(+)</button>	<button class="btn btn-default" onclick="removerCampos(this);">Remover lote(-)</button>
+							<a class="btn btn-danger" onclick="duplicarCampos();">Acrescentar lote(+)</a>	<a class="btn btn-default" onclick="removerCampos(this);">Remover lote(-)</a>
 						</div>
 					</div>
 					<div id="loteavendainicial" class="form-row col-md-12">
